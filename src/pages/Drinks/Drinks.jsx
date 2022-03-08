@@ -4,17 +4,18 @@ import drinkRequest from '../../services/DrinkRequest';
 
 function Drinks() {
   const { resultRecipes, setResultRecipes } = useContext(myContext);
+
   const getDrinks = async () => {
-    const results = await drinkRequest();
-    setResultRecipes(...results);
+    setResultRecipes(await drinkRequest());
   };
+
   useEffect(() => {
     getDrinks();
   }, []);
 
   return (
     <section>
-      {resultRecipes.length > 0 && resultRecipes.map((element, index) => (
+      { resultRecipes.map((element, index) => (
         <section key={ element.idDrink } data-testid={ `${index}-recipe-card` }>
           <img
             data-testid={ `${index}-card-img` }

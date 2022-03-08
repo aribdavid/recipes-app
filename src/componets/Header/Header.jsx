@@ -6,6 +6,8 @@ import searchIcon from '../../images/searchIcon.svg';
 import searchFood from '../../helpers/searchFood';
 import myContext from '../../context/myContext';
 
+const NUMBER_TWELVE = 12;
+
 function Header({ title, searchBtn }) {
   const [showInput, setShowInput] = useState(false);
   const [valueInputSearch, setValueInputSearch] = useState('');
@@ -18,8 +20,8 @@ function Header({ title, searchBtn }) {
       return title === 'foods' ? history.push(`/${title}/${results[0].idMeal}`)
         : history.push(`/${title}/${results[0].idDrink}`);
     }
-    console.log(results);
-    setResultRecipes(...results);
+    const newArray = results.slice(0, NUMBER_TWELVE);
+    setResultRecipes(newArray);
     return title === 'foods' ? history.push(`/${title}`)
       : history.push(`/${title}`);
   }
@@ -68,6 +70,7 @@ function Header({ title, searchBtn }) {
           <label htmlFor="ingredient">
             <input
               name="radio-buttons"
+              id="ingredient"
               type="radio"
               data-testid="ingredient-search-radio"
               value="ingredient"
@@ -79,6 +82,7 @@ function Header({ title, searchBtn }) {
           <label htmlFor="name">
             <input
               name="radio-buttons"
+              id="name"
               type="radio"
               data-testid="name-search-radio"
               value="name"
@@ -90,6 +94,7 @@ function Header({ title, searchBtn }) {
           <label htmlFor="first-letter">
             <input
               name="radio-buttons"
+              id="first-letter"
               type="radio"
               data-testid="first-letter-search-radio"
               value="first letter"
