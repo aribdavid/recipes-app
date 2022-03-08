@@ -15,7 +15,7 @@ function Header({ title, searchBtn }) {
     if (radioValue === 'first letter' && valueInputSearch.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     } else {
-      searchFood(radioValue, valueInputSearch);
+      searchFood(radioValue, valueInputSearch, title);
     }
   }
 
