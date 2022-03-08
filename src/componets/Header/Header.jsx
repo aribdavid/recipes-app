@@ -11,11 +11,15 @@ function Header({ title, searchBtn }) {
   const [radioValue, setRadioValue] = useState('name');
   const history = useHistory();
 
-  function handleClickSearchFood() {
+  async function handleClickSearchFood() {
     if (radioValue === 'first letter' && valueInputSearch.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     } else {
-      searchFood(radioValue, valueInputSearch, title);
+      const results = await searchFood(radioValue, valueInputSearch, title);
+      if (results.length === 1) {
+        return title === 'foods' ? history.push(`/${title}/${results[0].idMeal}`)
+          : history.push(`/${title}/${results[0].idDrink}`);
+      }
     }
   }
 

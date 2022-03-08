@@ -9,7 +9,7 @@ const searchFood = async (option, name, typeFood) => {
     'first letter': firstLetterRequest,
   };
   const result = await options[option](name, typeFood);
-  console.log(result);
+  return result;
 };
 
 export default searchFood;

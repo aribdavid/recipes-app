@@ -23,12 +23,12 @@ function App() {
       <Route exact path="/" component={ Login } />
 
       <Route exact path="/foods">
-        <Header title="Foods" searchBtn />
+        <Header title="foods" searchBtn />
         <Foods />
       </Route>
 
       <Route exact path="/drinks">
-        <Header title="Drinks" searchBtn />
+        <Header title="drinks" searchBtn />
         <Drinks />
       </Route>
 
