@@ -3,13 +3,23 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
+import searchFood from '../../helpers/searchFood';
 
 function Header({ title, searchBtn }) {
   const [showInput, setShowInput] = useState(false);
-  const [inputSearch, setinputSearch] = useState('');
+  const [valueInputSearch, setValueInputSearch] = useState('');
+  const [radioValue, setRadioValue] = useState('name');
   const history = useHistory();
 
-  const handleClick = () => {
+  function handleClickSearchFood() {
+    if (radioValue === 'first letter' && valueInputSearch.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    } else {
+      searchFood(radioValue, valueInputSearch);
+    }
+  }
+
+  const handleClickProfile = () => {
     history.push('/profile');
   };
 
@@ -19,7 +29,7 @@ function Header({ title, searchBtn }) {
 
   return (
     <header className="header-container">
-      <button type="button" onClick={ handleClick }>
+      <button type="button" onClick={ handleClickProfile }>
         <img
           data-testid="profile-top-btn"
           src={ profileIcon }
@@ -37,8 +47,8 @@ function Header({ title, searchBtn }) {
           <input
             data-testid="search-input"
             type="text"
-            value={ inputSearch }
-            onChange={ ({ target }) => setinputSearch(target.value) }
+            value={ valueInputSearch }
+            onChange={ ({ target }) => setValueInputSearch(target.value) }
           />
 
           <label htmlFor="ingredient">
@@ -47,8 +57,9 @@ function Header({ title, searchBtn }) {
               type="radio"
               data-testid="ingredient-search-radio"
               value="ingredient"
+              onChange={ ({ target }) => setRadioValue(target.value) }
             />
-            Search Ingredient
+            Ingredient
           </label>
 
           <label htmlFor="name">
@@ -57,8 +68,9 @@ function Header({ title, searchBtn }) {
               type="radio"
               data-testid="name-search-radio"
               value="name"
+              onChange={ ({ target }) => setRadioValue(target.value) }
             />
-            Search Name
+            Name
           </label>
 
           <label htmlFor="first-letter">
@@ -66,12 +78,17 @@ function Header({ title, searchBtn }) {
               name="radio-buttons"
               type="radio"
               data-testid="first-letter-search-radio"
-              value="first-letter"
+              value="first letter"
+              onChange={ ({ target }) => setRadioValue(target.value) }
             />
-            Search By First Letter
+            First letter
           </label>
 
-          <button type="button" data-testid="exec-search-btn">
+          <button
+            type="button"
+            data-testid="exec-search-btn"
+            onClick={ handleClickSearchFood }
+          >
             Search
           </button>
         </div>
