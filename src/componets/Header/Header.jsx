@@ -1,25 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import searchFood from '../../helpers/searchFood';
+import myContext from '../../context/myContext';
 
 function Header({ title, searchBtn }) {
   const [showInput, setShowInput] = useState(false);
   const [valueInputSearch, setValueInputSearch] = useState('');
   const [radioValue, setRadioValue] = useState('name');
   const history = useHistory();
+  const { setResultRecipes } = useContext(myContext);
+
+  function redirectResults(results) {
+    if (results.length === 1) {
+      return title === 'foods' ? history.push(`/${title}/${results[0].idMeal}`)
+        : history.push(`/${title}/${results[0].idDrink}`);
+    }
+    console.log(results);
+    setResultRecipes(...results);
+    return title === 'foods' ? history.push(`/${title}`)
+      : history.push(`/${title}`);
+  }
 
   async function handleClickSearchFood() {
     if (radioValue === 'first letter' && valueInputSearch.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     } else {
       const results = await searchFood(radioValue, valueInputSearch, title);
-      if (results.length === 1) {
-        return title === 'foods' ? history.push(`/${title}/${results[0].idMeal}`)
-          : history.push(`/${title}/${results[0].idDrink}`);
-      }
+      redirectResults(results);
     }
   }
 
