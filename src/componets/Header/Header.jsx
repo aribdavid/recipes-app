@@ -33,12 +33,49 @@ function Header({ title, searchBtn }) {
         </button>
       ) }
       { showInput && (
-        <input
-          data-testid="search-input"
-          type="text"
-          value={ inputSearch }
-          onChange={ ({ target }) => setinputSearch(target.value) }
-        />
+        <div>
+          <input
+            data-testid="search-input"
+            type="text"
+            value={ inputSearch }
+            onChange={ ({ target }) => setinputSearch(target.value) }
+          />
+
+          <label htmlFor="ingredient">
+            <input
+              name="radio-buttons"
+              type="radio"
+              data-testid="ingredient-search-radio"
+              value="ingredient"
+            />
+            Search Ingredient
+          </label>
+
+          <label htmlFor="name">
+            <input
+              name="radio-buttons"
+              type="radio"
+              data-testid="name-search-radio"
+              value="name"
+            />
+            Search Name
+          </label>
+
+          <label htmlFor="first-letter">
+            <input
+              name="radio-buttons"
+              type="radio"
+              data-testid="first-letter-search-radio"
+              value="first-letter"
+            />
+            Search By First Letter
+          </label>
+
+          <button type="button" data-testid="exec-search-btn">
+            Search
+          </button>
+        </div>
+
       ) }
     </header>
   );
