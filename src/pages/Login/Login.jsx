@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const PASSWORD_MIN_LENGTH = 5;
 
@@ -6,6 +7,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [disableButton, buttonEnabler] = useState(true);
+  const history = useHistory();
 
   const verifyInput = () => {
     const validateEmail = () => (
@@ -57,6 +59,7 @@ function Login() {
             localStorage.setItem('mealsToken', 1);
             localStorage.setItem('cocktailsToken', 1);
             localStorage.setItem('user', JSON.stringify({ email }));
+            history.push('/foods');
           } }
         >
           Entrar
