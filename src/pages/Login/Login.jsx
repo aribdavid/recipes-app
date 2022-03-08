@@ -7,7 +7,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [disableButton, buttonEnabler] = useState(true);
 
-  const verifier = () => {
+  const verifyInput = () => {
     const validateEmail = () => (
       email.split('').includes('@')
       && email.split('').includes('.')
@@ -33,7 +33,7 @@ function Login() {
             data-testid="email-input"
             onChange={ ({ target }) => {
               setEmail(target.value);
-              verifier();
+              verifyInput();
             } }
           />
         </label>
@@ -45,17 +45,18 @@ function Login() {
             data-testid="password-input"
             onChange={ ({ target }) => {
               setPassword(target.value);
-              verifier();
+              verifyInput();
             } }
           />
         </label>
         <button
-          type="submit"
+          type="button"
           data-testid="login-submit-btn"
           disabled={ disableButton }
           onClick={ () => {
             localStorage.setItem('mealsToken', 1);
             localStorage.setItem('cocktailsToken', 1);
+            localStorage.setItem('user', JSON.stringify({ email }));
           } }
         >
           Entrar
