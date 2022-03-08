@@ -15,32 +15,74 @@ import Profile from './pages/Profile/Profile';
 import DoneRecipes from './pages/DoneRecipes/DoneRecipes';
 import FavoritesRecipes from './pages/FavoritesRecipes/FavoritesRecipes';
 import NotFound from './pages/NotFound/NotFound';
+import Header from './componets/Header/Header';
 
 function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
-      <Route exact path="/foods" component={ Foods } />
-      <Route exact path="/drinks" component={ Drinks } />
+
+      <Route exact path="/foods">
+        <Header title="Foods" searchBtn />
+        <Foods />
+      </Route>
+
+      <Route exact path="/drinks">
+        <Header title="Drinks" searchBtn />
+        <Drinks />
+      </Route>
+
       <Route exact path="/foods/:id" component={ RecipeDetails } />
+
       <Route exact path="/drinks/:id" component={ RecipeDetails } />
       <Route exact path="/foods/:id/in-progress" component={ RecipeInProgress } />
+
       <Route exact path="/drinks/:id/in-progress" component={ RecipeInProgress } />
-      <Route exact path="/explore" component={ Explore } />
-      <Route exact path="/explore/foods" component={ ExploreRecipes } />
-      <Route exact path="/explore/drinks" component={ ExploreRecipes } />
-      <Route exact path="/explore/foods/ingredients" component={ ExploreIngredients } />
-      <Route exact path="/explore/drinks/ingredients" component={ ExploreIngredients } />
 
-      <Route
-        exact
-        path="/explore/foods/nationalities"
-        component={ ExploreNationalities }
-      />
+      <Route exact path="/explore">
+        <Header title="Explore" />
+        <Explore />
+      </Route>
 
-      <Route exact path="/profile" component={ Profile } />
-      <Route exact path="/done-recipes" component={ DoneRecipes } />
-      <Route exact path="/favorite-recipes" component={ FavoritesRecipes } />
+      <Route exact path="/explore/foods">
+        <Header title="Explore Foods" />
+        <ExploreRecipes />
+      </Route>
+
+      <Route exact path="/explore/drinks">
+        <Header title="Explore Drinks" />
+        <ExploreRecipes />
+      </Route>
+
+      <Route exact path="/explore/foods/ingredients">
+        <Header title="Explore Ingredients" />
+        <ExploreIngredients />
+      </Route>
+
+      <Route exact path="/explore/drinks/ingredients">
+        <Header title="Explore Ingredients" />
+        <ExploreIngredients />
+      </Route>
+
+      <Route exact path="/explore/foods/nationalities">
+        <Header title="Explore Nationalities" searchBtn />
+        <ExploreNationalities />
+      </Route>
+
+      <Route exact path="/profile">
+        <Header title="Profile" />
+        <Profile />
+      </Route>
+
+      <Route exact path="/done-recipes">
+        <Header title="Done Recipes" />
+        <DoneRecipes />
+      </Route>
+
+      <Route exact path="/favorite-recipes">
+        <Header title="Favorite Recipes" />
+        <FavoritesRecipes />
+      </Route>
       <Route exact path="*" component={ NotFound } />
     </Switch>
   );
