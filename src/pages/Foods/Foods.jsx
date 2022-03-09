@@ -52,6 +52,22 @@ function Foods() {
             />
           </label>
         ))}
+        <label
+          htmlFor="all"
+        >
+          All
+          <input
+            type="checkbox"
+            name="category"
+            id="all"
+            data-testid="All-category-filter"
+            onChange={ ({ target }) => {
+              if (target.checked) {
+                selectCategory('');
+              }
+            } }
+          />
+        </label>
       </section>
       <section>
         {resultRecipes
@@ -59,6 +75,8 @@ function Foods() {
             <CardRecipe
               key={ e.idMeal }
               index={ index }
+              type="foods"
+              id={ e.idMeal }
               image={ e.strMealThumb }
               name={ e.strMeal }
             />

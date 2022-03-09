@@ -49,11 +49,29 @@ function Drinks() {
             />
           </label>
         ))}
+        <label
+          htmlFor="all"
+        >
+          All
+          <input
+            type="checkbox"
+            name="category"
+            id="all"
+            data-testid="All-category-filter"
+            onChange={ ({ target }) => {
+              if (target.checked) {
+                selectCategory('');
+              }
+            } }
+          />
+        </label>
       </section>
       <section>
         { resultRecipes.map((element, index) => (
           <CardRecipe
             key={ element.idDrink }
+            id={ element.idDrink }
+            type="drinks"
             index={ index }
             image={ element.strDrinkThumb }
             name={ element.strDrink }
