@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './style.css';
 
 function CardRecipe({ index, image, name }) {
   return (
     <section data-testid={ `${index}-recipe-card` }>
       <img
+        className="image-card"
         data-testid={ `${index}-card-img` }
         src={ image }
         alt=" drink "

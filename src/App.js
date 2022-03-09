@@ -32,6 +32,7 @@ function App() {
       <Route exact path="/drinks">
         <Header title="Drinks" searchBtn />
         <Drinks />
+        <Footer />
       </Route>
 
       <Route exact path="/foods/:id" component={ RecipeDetails } />
@@ -44,36 +45,43 @@ function App() {
       <Route exact path="/explore">
         <Header title="Explore" />
         <Explore />
+        <Footer />
       </Route>
 
       <Route exact path="/explore/foods">
         <Header title="Explore Foods" />
         <ExploreRecipes />
+        <Footer />
       </Route>
 
       <Route exact path="/explore/drinks">
         <Header title="Explore Drinks" />
         <ExploreRecipes />
+        <Footer />
       </Route>
 
       <Route exact path="/explore/foods/ingredients">
         <Header title="Explore Ingredients" />
         <ExploreIngredients />
+        <Footer />
       </Route>
 
       <Route exact path="/explore/drinks/ingredients">
         <Header title="Explore Ingredients" />
         <ExploreIngredients />
+        <Footer />
       </Route>
 
       <Route exact path="/explore/foods/nationalities">
         <Header title="Explore Nationalities" searchBtn />
         <ExploreNationalities />
+        <Footer />
       </Route>
 
       <Route exact path="/profile">
         <Header title="Profile" />
         <Profile />
+        <Footer />
       </Route>
 
       <Route exact path="/done-recipes">
