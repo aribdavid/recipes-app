@@ -5,7 +5,6 @@ import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import searchFood from '../../helpers/searchFood';
 import myContext from '../../context/myContext';
-import './style.css';
 
 const NUMBER_TWELVE = 12;
 
