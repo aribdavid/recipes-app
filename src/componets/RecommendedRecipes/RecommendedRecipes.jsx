@@ -27,7 +27,6 @@ function RecommendedRecipes({ typeFood }) {
   }, []);
 
   if (loading) return <Loading />;
-  console.log(recipes);
 
   return (
     <section className="recommended-recipes">

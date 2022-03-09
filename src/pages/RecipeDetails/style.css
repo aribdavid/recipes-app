@@ -14,3 +14,8 @@
 .instructions-recipe p {
   width: 100%;
 }
+
+.button-start-recipe {
+  bottom: 0;
+  position: fixed;
+}

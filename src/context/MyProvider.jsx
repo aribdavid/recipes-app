@@ -5,13 +5,18 @@ import myContext from './myContext';
 function MyProvider({ children }) {
   const [resultRecipes, setResultRecipes] = useState([]);
   const [detailsRecipe, setDetailsRecipe] = useState({});
+  const [foodCategories, setFoodCategories] = useState([]);
+  const [drinkCategories, setDrinkCategories] = useState([]);
 
-  const state = {
-    resultRecipes,
+  const state = { resultRecipes,
     setResultRecipes,
+    foodCategories,
+    setFoodCategories,
+    drinkCategories,
+    setDrinkCategories,
     detailsRecipe,
-    setDetailsRecipe,
-  };
+    setDetailsRecipe };
+
   return (
     <myContext.Provider value={ state }>
       {children}

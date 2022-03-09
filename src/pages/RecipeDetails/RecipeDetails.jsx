@@ -68,8 +68,14 @@ function RecipeDetails() {
     setLoading(false);
   };
 
+  const getLocalStorage = () => {
+    const statusRecipe = localStorage.getItem('inProgressRecipes');
+    console.log(statusRecipe);
+  };
+
   useEffect(() => {
     getDetailsRecipe();
+    getLocalStorage();
   }, []);
 
   if (loading) return <Loading />;
@@ -127,7 +133,13 @@ function RecipeDetails() {
 
       <RecommendedRecipes typeFood={ typeFood } />
 
-      <button data-testid="start-recipe-btn" type="button">Iniciar Receita</button>
+      <button
+        data-testid="start-recipe-btn"
+        type="button"
+        className="button-start-recipe"
+      >
+        Start Recipe
+      </button>
     </main>
   );
 }
