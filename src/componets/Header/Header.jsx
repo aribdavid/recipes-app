@@ -31,7 +31,9 @@ function Header({ title, searchBtn }) {
       global.alert('Your search must have only 1 (one) character');
     } else {
       const results = await searchFood(radioValue, valueInputSearch, title);
-      redirectResults(results);
+      if (results === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      } else redirectResults(results);
     }
   }
 
