@@ -5,6 +5,7 @@ import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import searchFood from '../../helpers/searchFood';
 import myContext from '../../context/myContext';
+import './style.css';
 
 const NUMBER_TWELVE = 12;
 
@@ -14,23 +15,25 @@ function Header({ title, searchBtn }) {
   const [radioValue, setRadioValue] = useState('name');
   const history = useHistory();
   const { setResultRecipes } = useContext(myContext);
+  const pathTitle = title.toLowerCase();
 
   function redirectResults(results) {
     if (results.length === 1) {
-      return title === 'foods' ? history.push(`/${title}/${results[0].idMeal}`)
-        : history.push(`/${title}/${results[0].idDrink}`);
+      return pathTitle === 'foods'
+        ? history.push(`/${pathTitle}/${results[0].idMeal}`)
+        : history.push(`/${pathTitle}/${results[0].idDrink}`);
     }
     const newArray = results.slice(0, NUMBER_TWELVE);
     setResultRecipes(newArray);
-    return title === 'foods' ? history.push(`/${title}`)
-      : history.push(`/${title}`);
+    return pathTitle === 'foods' ? history.push(`/${pathTitle}`)
+      : history.push(`/${pathTitle}`);
   }
 
   async function handleClickSearchFood() {
     if (radioValue === 'first letter' && valueInputSearch.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     } else {
-      const results = await searchFood(radioValue, valueInputSearch, title);
+      const results = await searchFood(radioValue, valueInputSearch, pathTitle);
       if (results === null) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       } else redirectResults(results);
@@ -54,7 +57,7 @@ function Header({ title, searchBtn }) {
           alt="Profile Icon"
         />
       </button>
-      <h1 data-testid="page-title">{ title }</h1>
+      <h1 data-testid="page-title" className="title-header">{ title }</h1>
       { searchBtn && (
         <button type="button" onClick={ toggleInput }>
           <img data-testid="search-top-btn" src={ searchIcon } alt="Search Button" />
