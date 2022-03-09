@@ -1,11 +1,11 @@
 .recommended-recipes {
   display: flex;
-  width: 100%;
   overflow-x: scroll;
+  width: 100%;
 }
 
 .recomendation-card {
-  min-width: 50%;
-  margin: 0 20px;
   border: 1px solid red;
+  margin: 0 20px;
+  min-width: 50%;
 }
