@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import myContext from './myContext';
 
 function MyProvider({ children }) {
-  const state = {};
+  const [resultRecipes, setResultRecipes] = useState([]);
+  const state = { resultRecipes, setResultRecipes };
   return (
     <myContext.Provider value={ state }>
       {children}
