@@ -11,11 +11,11 @@ function Foods() {
     foodCategories,
     setFoodCategories } = useContext(myContext);
 
-  const [activeCategory, selectCategory] = useState();
+  const [activeCategory, selectCategory] = useState('');
 
   useEffect(() => {
     const getFoods = async (category) => (
-      activeCategory ? setResultRecipes(await filteredFoodRequest(category))
+      activeCategory !== '' ? setResultRecipes(await filteredFoodRequest(category))
         : setResultRecipes(await foodRequest())
     );
 
@@ -37,7 +37,7 @@ function Foods() {
           >
             {element.strCategory}
             <input
-              type="radio"
+              type="checkbox"
               id={ element.strCategory }
               data-testid={ `${element.strCategory}-category-filter` }
               value={ element.strCategory }
@@ -45,6 +45,8 @@ function Foods() {
               onChange={ ({ target }) => {
                 if (target.checked) {
                   selectCategory(target.value);
+                } else {
+                  selectCategory('');
                 }
               } }
             />
