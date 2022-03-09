@@ -4,10 +4,11 @@ import myContext from '../../context/myContext';
 import detailsRecipeRequest from '../../services/DetailsRecipeRequest';
 import Loading from '../../componets/Loading/Loading';
 import './style.css';
+import RecommendedRecipes from '../../componets/RecommendedRecipes/RecommendedRecipes';
 
 function RecipeDetails() {
-  const recomendados = ['um'];
   const [loading, setLoading] = useState(true);
+  const [typeFood, setTypeFood] = useState('');
   const location = useLocation();
   const { setDetailsRecipe, detailsRecipe } = useContext(myContext);
 
@@ -35,12 +36,12 @@ function RecipeDetails() {
     return recipe;
   };
 
-  const createDetailList = (data, typeFood) => {
-    const recipe = typeFood === 'foods'
+  const createDetailList = (data, food) => {
+    const recipe = food === 'foods'
       ? getIngredientsAndMeassures(Object.entries(data.meals[0]))
       : getIngredientsAndMeassures(Object.entries(data.drinks[0]));
 
-    return typeFood === 'foods'
+    return food === 'foods'
       ? {
         thumb: data.meals[0].strMealThumb,
         title: data.meals[0].strMeal,
@@ -61,6 +62,7 @@ function RecipeDetails() {
 
   const getDetailsRecipe = async () => {
     const idRecipe = (location.pathname.split('/'));
+    setTypeFood(idRecipe[1]);
     const result = await detailsRecipeRequest(idRecipe[2], idRecipe[1]);
     setDetailsRecipe(createDetailList(result, idRecipe[1]));
     setLoading(false);
@@ -123,16 +125,7 @@ function RecipeDetails() {
         />
       )}
 
-      <ul>
-        { recomendados.map((element, index) => (
-          <li
-            data-testid={ `${index}-recomendation-card` }
-            key={ element }
-          >
-            { element }
-          </li>
-        )) }
-      </ul>
+      <RecommendedRecipes typeFood={ typeFood } />
 
       <button data-testid="start-recipe-btn" type="button">Iniciar Receita</button>
     </main>

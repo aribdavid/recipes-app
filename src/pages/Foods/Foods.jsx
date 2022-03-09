@@ -7,7 +7,8 @@ function Foods() {
   const { resultRecipes, setResultRecipes } = useContext(myContext);
 
   const getFoods = async () => {
-    setResultRecipes(await foodRequest());
+    const NUMBER_TWELVE = 12;
+    setResultRecipes(await foodRequest(NUMBER_TWELVE));
   };
 
   useEffect(() => {
