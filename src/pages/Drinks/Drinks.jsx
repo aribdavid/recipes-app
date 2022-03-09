@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import CardRecipe from '../../componets/CardRecipe/CardRecipe';
 import myContext from '../../context/myContext';
 import drinkRequest from '../../services/DrinkRequest';
 
@@ -16,16 +17,12 @@ function Drinks() {
   return (
     <section>
       { resultRecipes.map((element, index) => (
-        <section key={ element.idDrink } data-testid={ `${index}-recipe-card` }>
-          <img
-            data-testid={ `${index}-card-img` }
-            src={ element.strDrinkThumb }
-            alt=" drink "
-          />
-          <h1 data-testid={ `${index}-card-name` }>
-            {element.strDrink}
-          </h1>
-        </section>
+        <CardRecipe
+          key={ element.idDrink }
+          index={ index }
+          image={ element.strDrinkThumb }
+          name={ element.strDrink }
+        />
       ))}
     </section>
   );
