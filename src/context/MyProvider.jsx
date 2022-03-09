@@ -4,7 +4,14 @@ import myContext from './myContext';
 
 function MyProvider({ children }) {
   const [resultRecipes, setResultRecipes] = useState([]);
-  const state = { resultRecipes, setResultRecipes };
+  const [detailsRecipe, setDetailsRecipe] = useState({});
+
+  const state = {
+    resultRecipes,
+    setResultRecipes,
+    detailsRecipe,
+    setDetailsRecipe,
+  };
   return (
     <myContext.Provider value={ state }>
       {children}

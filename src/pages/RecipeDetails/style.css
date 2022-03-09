@@ -1,0 +1,16 @@
+.image-recipe {
+  width: 150px;
+}
+
+.title-recipe {
+  font-size: 1em;
+}
+
+.instructions-recipe {
+  display: flex;
+  width: 200px;
+}
+
+.instructions-recipe p {
+  width: 100%;
+}
