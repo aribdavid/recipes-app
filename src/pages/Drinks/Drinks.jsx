@@ -8,18 +8,17 @@ function Drinks() {
   const { resultRecipes, setResultRecipes,
     drinkCategories, setDrinkCategories } = useContext(myContext);
 
-  const getDrinks = async () => {
-    setResultRecipes(await drinkRequest());
-  };
-
-  const getDrinksCategories = async () => {
-    setDrinkCategories(await drinkCategoryRequest());
-  };
-
   useEffect(() => {
+    const getDrinks = async () => {
+      setResultRecipes(await drinkRequest());
+    };
+
+    const getDrinksCategories = async () => {
+      setDrinkCategories(await drinkCategoryRequest());
+    };
     getDrinks();
     getDrinksCategories();
-  }, []);
+  }, [setDrinkCategories, setResultRecipes]);
 
   return (
     <main>
@@ -40,7 +39,7 @@ function Drinks() {
       </section>
       <section>
         { resultRecipes.map((element, index) => (
-          <section key={ element.idDrink } data-testid={ `${index}-recipe-card` }>
+          <CardRecipe key={ element.idDrink } data-testid={ `${index}-recipe-card` }>
             <img
               data-testid={ `${index}-card-img` }
               src={ element.strDrinkThumb }
@@ -49,7 +48,7 @@ function Drinks() {
             <h1 data-testid={ `${index}-card-name` }>
               {element.strDrink}
             </h1>
-          </section>
+          </CardRecipe>
         ))}
       </section>
     </main>
