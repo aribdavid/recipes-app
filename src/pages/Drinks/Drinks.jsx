@@ -1,24 +1,28 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CardRecipe from '../../componets/CardRecipe/CardRecipe';
 import myContext from '../../context/myContext';
 import drinkRequest from '../../services/DrinkRequest';
 import drinkCategoryRequest from '../../services/DrinkCategoryRequest';
+import filteredDrinkRequest from '../../services/FilteredDrinkRequest';
 
 function Drinks() {
   const { resultRecipes, setResultRecipes,
     drinkCategories, setDrinkCategories } = useContext(myContext);
 
+  const [activeCategory, selectCategory] = useState();
+
   useEffect(() => {
-    const getDrinks = async () => {
-      setResultRecipes(await drinkRequest());
-    };
+    const getDrinks = async (category) => (
+      activeCategory ? setResultRecipes(await filteredDrinkRequest(category))
+        : setResultRecipes(await drinkRequest())
+    );
 
     const getDrinksCategories = async () => {
       setDrinkCategories(await drinkCategoryRequest());
     };
-    getDrinks();
+    getDrinks(activeCategory);
     getDrinksCategories();
-  }, [setDrinkCategories, setResultRecipes]);
+  }, [setDrinkCategories, setResultRecipes, activeCategory]);
 
   return (
     <main>
@@ -31,24 +35,27 @@ function Drinks() {
             {element.strCategory}
             <input
               type="radio"
-              name={ element.strCategory }
+              name="category"
+              id={ element.strCategory }
+              value={ element.strCategory }
               data-testid={ `${element.strCategory}-category-filter` }
+              onChange={ ({ target }) => {
+                if (target.checked) {
+                  selectCategory(target.value);
+                }
+              } }
             />
           </label>
         ))}
       </section>
       <section>
         { resultRecipes.map((element, index) => (
-          <CardRecipe key={ element.idDrink } data-testid={ `${index}-recipe-card` }>
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ element.strDrinkThumb }
-              alt=" drink "
-            />
-            <h1 data-testid={ `${index}-card-name` }>
-              {element.strDrink}
-            </h1>
-          </CardRecipe>
+          <CardRecipe
+            key={ element.idDrink }
+            index={ index }
+            image={ element.strDrinkThumb }
+            name={ element.strDrink }
+          />
         ))}
       </section>
     </main>
