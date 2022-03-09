@@ -1,8 +1,8 @@
 .footer-container {
+  background-color: gray;
+  bottom: 0;
   display: flex;
   justify-content: space-between;
   position: fixed;
-  background-color: gray;
   width: 100%;
-  bottom: 0vh;
 }
