@@ -16,6 +16,7 @@ import DoneRecipes from './pages/DoneRecipes/DoneRecipes';
 import FavoritesRecipes from './pages/FavoritesRecipes/FavoritesRecipes';
 import NotFound from './pages/NotFound/NotFound';
 import Header from './componets/Header/Header';
+import Footer from './componets/Footer/Footer';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route exact path="/foods">
         <Header title="Foods" searchBtn />
         <Foods />
+        <Footer />
       </Route>
 
       <Route exact path="/drinks">
