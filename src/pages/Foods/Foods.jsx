@@ -5,18 +5,24 @@ import foodRequest from '../../services/FoodRequest';
 import foodCategoryRequest from '../../services/FoodCategoryRequest';
 import filteredFoodRequest from '../../services/FilteredFoodRequest';
 
+const NUMBER_TWELVE = 12;
+
 function Foods() {
   const { resultRecipes,
     setResultRecipes,
     foodCategories,
     setFoodCategories } = useContext(myContext);
 
+  const getInitialFoods = async () => {
+    setResultRecipes(await foodRequest(NUMBER_TWELVE));
+  };
   const [activeCategory, selectCategory] = useState('');
 
   useEffect(() => {
+    getInitialFoods();
     const getFoods = async (category) => (
       activeCategory !== '' ? setResultRecipes(await filteredFoodRequest(category))
-        : setResultRecipes(await foodRequest())
+        : setResultRecipes(await foodRequest(NUMBER_TWELVE))
     );
 
     const getFoodCategories = async () => {
