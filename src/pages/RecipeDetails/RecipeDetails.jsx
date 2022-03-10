@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import myContext from '../../context/myContext';
 import detailsRecipeRequest from '../../services/DetailsRecipeRequest';
 import Loading from '../../componets/Loading/Loading';
@@ -9,8 +9,10 @@ import RecommendedRecipes from '../../componets/RecommendedRecipes/RecommendedRe
 function RecipeDetails() {
   const [loading, setLoading] = useState(true);
   const [typeFood, setTypeFood] = useState('');
+  const [idFood, setIdFood] = useState('');
   const location = useLocation();
   const { setDetailsRecipe, detailsRecipe } = useContext(myContext);
+  const history = useHistory();
 
   const getingredientMeasure = (array, key) => {
     const filterIngredients = array
@@ -63,6 +65,7 @@ function RecipeDetails() {
   const getDetailsRecipe = async () => {
     const idRecipe = (location.pathname.split('/'));
     setTypeFood(idRecipe[1]);
+    setIdFood(idRecipe[2]);
     const result = await detailsRecipeRequest(idRecipe[2], idRecipe[1]);
     setDetailsRecipe(createDetailList(result, idRecipe[1]));
     setLoading(false);
@@ -71,6 +74,13 @@ function RecipeDetails() {
   const getLocalStorage = () => {
     const statusRecipe = localStorage.getItem('inProgressRecipes');
     console.log(statusRecipe);
+  };
+
+  const redirectRecipeInProgress = () => {
+    history.push({
+      pathname: `/${typeFood}/${idFood}/in-progress`,
+      state: { detailsRecipe },
+    });
   };
 
   useEffect(() => {
@@ -137,6 +147,7 @@ function RecipeDetails() {
         data-testid="start-recipe-btn"
         type="button"
         className="button-start-recipe"
+        onClick={ redirectRecipeInProgress }
       >
         Start Recipe
       </button>
