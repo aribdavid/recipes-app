@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import myContext from '../../context/myContext';
 import detailsRecipeRequest from '../../services/DetailsRecipeRequest';
 import Loading from '../../componets/Loading/Loading';
@@ -10,6 +11,7 @@ function RecipeDetails() {
   const [loading, setLoading] = useState(true);
   const [typeFood, setTypeFood] = useState('');
   const [idFood, setIdFood] = useState('');
+  const [copied, setCopied] = useState(false);
   const location = useLocation();
   const { setDetailsRecipe, detailsRecipe } = useContext(myContext);
   const history = useHistory();
@@ -83,6 +85,12 @@ function RecipeDetails() {
     });
   };
 
+  const copyLink = () => {
+    console.log(window.location.href);
+    copy(window.location.href);
+    setCopied(true);
+  };
+
   useEffect(() => {
     getDetailsRecipe();
     getLocalStorage();
@@ -104,7 +112,13 @@ function RecipeDetails() {
       >
         { detailsRecipe.title }
       </h1>
-      <button data-testid="share-btn" type="button">Compartilhar</button>
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ copyLink }
+      >
+        { copied ? 'Link copied!' : 'Share' }
+      </button>
       <button data-testid="favorite-btn" type="button">Favoritar</button>
 
       <p data-testid="recipe-category">
