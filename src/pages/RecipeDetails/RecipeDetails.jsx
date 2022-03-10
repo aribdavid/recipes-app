@@ -1,16 +1,20 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import myContext from '../../context/myContext';
 import detailsRecipeRequest from '../../services/DetailsRecipeRequest';
 import Loading from '../../componets/Loading/Loading';
 import './style.css';
 import RecommendedRecipes from '../../componets/RecommendedRecipes/RecommendedRecipes';
+import DetailsRecipe from '../../componets/DetailsRecipe/DetailsRecipe';
 
 function RecipeDetails() {
   const [loading, setLoading] = useState(true);
   const [typeFood, setTypeFood] = useState('');
+  const [idFood, setIdFood] = useState('');
+  const [isFavorite, setIsFavorite] = useState(false);
   const location = useLocation();
   const { setDetailsRecipe, detailsRecipe } = useContext(myContext);
+  const history = useHistory();
 
   const getingredientMeasure = (array, key) => {
     const filterIngredients = array
@@ -49,6 +53,8 @@ function RecipeDetails() {
         recipe,
         instructions: data.meals[0].strInstructions,
         video: data.meals[0].strYoutube,
+        nationality: data.meals[0].strArea || '',
+        alcoholicOrNot: '',
       }
       : {
         thumb: data.drinks[0].strDrinkThumb,
@@ -57,65 +63,51 @@ function RecipeDetails() {
         recipe,
         instructions: data.drinks[0].strInstructions,
         video: data.drinks[0].strYoutube,
+        nationality: data.drinks[0].strArea || '',
+        alcoholicOrNot: data.drinks[0].strCategory === 'Cocktail' ? 'Alcoholic'
+          : 'non-alcoholic',
       };
+  };
+  const getLocalStorage = () => {
+    const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    setIsFavorite(favoriteArray.some((favorites) => favorites.id === idFood));
   };
 
   const getDetailsRecipe = async () => {
     const idRecipe = (location.pathname.split('/'));
     setTypeFood(idRecipe[1]);
+    setIdFood(idRecipe[2]);
     const result = await detailsRecipeRequest(idRecipe[2], idRecipe[1]);
     setDetailsRecipe(createDetailList(result, idRecipe[1]));
     setLoading(false);
   };
 
-  const getLocalStorage = () => {
-    const statusRecipe = localStorage.getItem('inProgressRecipes');
-    console.log(statusRecipe);
+  const redirectRecipeInProgress = () => {
+    history.push({
+      pathname: `/${typeFood}/${idFood}/in-progress`,
+      state: { detailsRecipe },
+    });
   };
 
   useEffect(() => {
     getDetailsRecipe();
-    getLocalStorage();
   }, []);
+
+  useEffect(() => {
+    getLocalStorage();
+  }, [idFood]);
 
   if (loading) return <Loading />;
 
   return (
     <main>
-      <img
-        className="image-recipe"
-        data-testid="recipe-photo"
-        src={ detailsRecipe.thumb }
-        alt="imagem da receita"
+      <DetailsRecipe
+        detailsRecipe={ detailsRecipe }
+        idFood={ idFood }
+        typeFood={ typeFood }
+        isFavorite={ isFavorite }
+        setIsFavorite={ setIsFavorite }
       />
-      <h1
-        className="title-recipe"
-        data-testid="recipe-title"
-      >
-        { detailsRecipe.title }
-      </h1>
-      <button data-testid="share-btn" type="button">Compartilhar</button>
-      <button data-testid="favorite-btn" type="button">Favoritar</button>
-
-      <p data-testid="recipe-category">
-        { detailsRecipe.category === 'Cocktail' ? 'Alcoholic' : detailsRecipe.category }
-      </p>
-
-      <ul>
-        { detailsRecipe.recipe.map((element, index) => (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ element }
-          >
-            { element }
-          </li>
-        )) }
-      </ul>
-      <div className="instructions-recipe">
-        <p data-testid="instructions">
-          { detailsRecipe.instructions }
-        </p>
-      </div>
 
       { detailsRecipe.video !== undefined && (
         <iframe
@@ -137,6 +129,7 @@ function RecipeDetails() {
         data-testid="start-recipe-btn"
         type="button"
         className="button-start-recipe"
+        onClick={ redirectRecipeInProgress }
       >
         Start Recipe
       </button>
