@@ -86,7 +86,6 @@ function RecipeDetails() {
   };
 
   const copyLink = () => {
-    console.log(window.location.href);
     copy(window.location.href);
     setCopied(true);
   };
