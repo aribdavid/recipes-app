@@ -118,7 +118,7 @@ function RecipeDetails() {
       >
         { copied ? 'Link copied!' : 'Share' }
       </button>
-      <button data-testid="favorite-btn" type="button">Favoritar</button>
+      <button data-testid="favorite-btn" type="button">Favorite</button>
 
       <p data-testid="recipe-category">
         { detailsRecipe.category === 'Cocktail' ? 'Alcoholic' : detailsRecipe.category }
