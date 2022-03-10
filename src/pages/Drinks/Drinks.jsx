@@ -10,14 +10,9 @@ const NUMBER_TWELVE = 12;
 function Drinks() {
   const { resultRecipes, setResultRecipes,
     drinkCategories, setDrinkCategories } = useContext(myContext);
-
-  const getInitialDrinks = async () => {
-    setResultRecipes(await drinkRequest(NUMBER_TWELVE));
-  };
   const [activeCategory, selectCategory] = useState('');
 
   useEffect(() => {
-    getInitialDrinks();
     const getDrinks = async (category) => (
       activeCategory !== '' ? setResultRecipes(await filteredDrinkRequest(category))
         : setResultRecipes(await drinkRequest(NUMBER_TWELVE))

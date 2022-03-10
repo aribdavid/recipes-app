@@ -12,14 +12,9 @@ function Foods() {
     setResultRecipes,
     foodCategories,
     setFoodCategories } = useContext(myContext);
-
-  const getInitialFoods = async () => {
-    setResultRecipes(await foodRequest(NUMBER_TWELVE));
-  };
   const [activeCategory, selectCategory] = useState('');
 
   useEffect(() => {
-    getInitialFoods();
     const getFoods = async (category) => (
       activeCategory !== '' ? setResultRecipes(await filteredFoodRequest(category))
         : setResultRecipes(await foodRequest(NUMBER_TWELVE))
@@ -79,7 +74,7 @@ function Foods() {
         {resultRecipes
           .map((e, index) => (
             <CardRecipe
-              key={ e.idMeal }
+              key={ `${e.idMeal}${index}` }
               index={ index }
               type="foods"
               id={ e.idMeal }

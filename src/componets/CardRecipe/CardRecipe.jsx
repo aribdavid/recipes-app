@@ -10,6 +10,7 @@ function CardRecipe({ index, image, name, id, type }) {
         data-testid={ `${index}-recipe-card` }
       >
         <img
+          className="image-card"
           data-testid={ `${index}-card-img` }
           src={ image }
           alt=" drink "
