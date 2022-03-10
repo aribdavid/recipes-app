@@ -74,7 +74,7 @@ function Foods() {
         {resultRecipes
           .map((e, index) => (
             <CardRecipe
-              key={ e.idMeal }
+              key={ `${e.idMeal}${index}` }
               index={ index }
               type="foods"
               id={ e.idMeal }
