@@ -4,18 +4,19 @@ import PropTypes from 'prop-types';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
-function DetailsRecipe({ detailsRecipe, idFood, typeFood, isFavorite, setIsFavorite }) {
+function DetailsRecipe({ detailsRecipe, isFavorite, setIsFavorite }) {
   const [copied, setCopied] = useState(false);
   const dataFavoriteRecipes = () => {
     const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
 
     if (isFavorite) {
-      const newFavorites = favoriteArray.filter((recipe) => recipe.id !== idFood);
+      const newFavorites = favoriteArray
+        .filter((recipe) => recipe.id !== detailsRecipe.id);
       localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
     } else {
       const objectFavortiteRecipes = {
-        id: idFood,
-        type: typeFood === 'foods' ? 'food' : 'drink',
+        id: detailsRecipe.id,
+        type: detailsRecipe.type,
         nationality: detailsRecipe.nationality,
         category: detailsRecipe.category,
         alcoholicOrNot: detailsRecipe.alcoholicOrNot,
@@ -89,8 +90,8 @@ function DetailsRecipe({ detailsRecipe, idFood, typeFood, isFavorite, setIsFavor
 }
 
 DetailsRecipe.propTypes = {
-  idFood: PropTypes.string.isRequired,
-  typeFood: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   isFavorite: PropTypes.bool.isRequired,
   detailsRecipe: PropTypes.objectOf,
   category: PropTypes.string,
