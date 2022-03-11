@@ -19,42 +19,72 @@ function DoneRecipes() {
         Drink
       </button>
       {doneRecipes.map((recipe, index) => (
-        <section
-          key={ index }
-        >
-          <img
-            className="image-card"
-            data-testid={ `${index}-horizontal-image` }
-            src={ recipe.image }
-            alt=" drink "
-          />
-          <h1 data-testid={ `${index}-horizontal-top-text` }>
-            {`${recipe.nationality} - ${recipe.category} `}
-          </h1>
-          <h3 data-testid={ `${index}-horizontal-name` }>
-            {recipe.name}
-          </h3>
-          <h4 data-testid={ `${index}-horizontal-done-date` }>
-            {recipe.doneDate}
-          </h4>
-          <button type="button">
+        recipe.type === 'food' ? (
+          <section
+            key={ index }
+          >
             <img
-              data-testid={ `${index}-horizontal-share-btn` }
-              alt="share-logo"
-              src={ shareIcon }
+              className="image-card"
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              alt=" food "
             />
-          </button>
-          {recipe.tags.map((tag) => (
-            <span
-              key={ tag }
-              data-testid={ `${index}-${tag}-horizontal-tag` }
-            >
-              {tag}
+            <h1 data-testid={ `${index}-horizontal-top-text` }>
+              {`${recipe.nationality} - ${recipe.category} `}
+            </h1>
+            <h3 data-testid={ `${index}-horizontal-name` }>
+              {recipe.name}
+            </h3>
+            <h4 data-testid={ `${index}-horizontal-done-date` }>
+              {recipe.doneDate}
+            </h4>
+            <button type="button">
+              <img
+                data-testid={ `${index}-horizontal-share-btn` }
+                alt="share-logo"
+                src={ shareIcon }
+              />
+            </button>
+            {recipe.tags.map((tag) => (
+              <span
+                key={ tag }
+                data-testid={ `${index}-${tag}-horizontal-tag` }
+              >
+                {tag}
 
-            </span>
-          ))}
+              </span>
+            ))}
 
-        </section>
+          </section>
+        ) : (
+          <section
+            key={ index }
+          >
+            <img
+              className="image-card"
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              alt=" drink "
+            />
+            <h1 data-testid={ `${index}-horizontal-top-text` }>
+              {`${recipe.alcoholicOrNot}`}
+            </h1>
+            <h3 data-testid={ `${index}-horizontal-name` }>
+              {recipe.name}
+            </h3>
+            <h4>{recipe.alcoholicOrNot}</h4>
+            <h4 data-testid={ `${index}-horizontal-done-date` }>
+              {recipe.doneDate}
+            </h4>
+            <button type="button">
+              <img
+                data-testid={ `${index}-horizontal-share-btn` }
+                alt="share-logo"
+                src={ shareIcon }
+              />
+            </button>
+          </section>
+        )
       ))}
     </div>
   );
