@@ -52,8 +52,6 @@ const createDetailList = (data, food) => {
       : 'non-alcoholic';
   }
 
-  console.log(alcoholicOrNot);
-
   return food === 'foods'
     ? createObjectRecipe({
       type: 'meals',
