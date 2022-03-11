@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeart from '../../images/blackHeartIcon.svg';
 
 export default function FavoriteRecipesCard({ recipe, index, unFavorite }) {
   const [isCopied, setIsCopied] = useState(false);
+  const history = useHistory();
 
   function handleShare() {
     const currentURL = window.location.href;
@@ -17,13 +18,16 @@ export default function FavoriteRecipesCard({ recipe, index, unFavorite }) {
 
   return (
     <div>
-      <Link to={ `/${recipe.type}s/${recipe.id}` }>
+      <button
+        type="button"
+        data-testid={ `${index}-horizontal-image` }
+        onClick={ () => history.push(`/${recipe.type}s/${recipe.id}`) }
+      >
         <img
-          data-testid={ `${index}-horizontal-image` }
           src={ recipe.image }
           alt={ `${recipe.name}` }
         />
-      </Link>
+      </button>
       <h1
         data-testid={ `${index}-horizontal-top-text` }
       >

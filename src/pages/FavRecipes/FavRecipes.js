@@ -5,15 +5,15 @@ function FavoritesRecipes() {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [filteredFavoriteRecipes, setFilteredFavoriteRecipes] = useState([]);
 
-  function handleClick(event) {
+  const handleClick = (event) => {
     const { name } = event.target;
     const getFavoriteRecipes = favoriteRecipes.filter((recipe) => (
       recipe.type.includes(name)
     ));
     setFilteredFavoriteRecipes(getFavoriteRecipes);
-  }
+  };
 
-  function unFavorite(event) {
+  const unFavorite = (event) => {
     const { name } = event.target;
     const filteredRecipes = favoriteRecipes.filter((recipe) => (
       recipe.name !== name
@@ -23,7 +23,7 @@ function FavoritesRecipes() {
       .getItem('favoriteRecipes'));
     setFavoriteRecipes(favoriteRecipesLocalStorage);
     setFilteredFavoriteRecipes(favoriteRecipesLocalStorage);
-  }
+  };
 
   useEffect(() => {
     if (!localStorage.getItem('favoriteRecipes')) {
