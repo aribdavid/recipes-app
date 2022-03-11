@@ -3,8 +3,11 @@ import copy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import DisorderedList from '../DisorderedList/DisorderedList';
+import CheckboxList from '../CheckboxList/CheckboxList';
 
-function DetailsRecipe({ detailsRecipe, isFavorite, setIsFavorite }) {
+function DetailsRecipe({
+  detailsRecipe, isFavorite, setIsFavorite, checkbox }) {
   const [copied, setCopied] = useState(false);
   const dataFavoriteRecipes = () => {
     const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
@@ -30,7 +33,7 @@ function DetailsRecipe({ detailsRecipe, isFavorite, setIsFavorite }) {
   };
 
   const copyLink = () => {
-    copy(window.location.href);
+    copy(window.location.href.replace('/in-progress', ''));
     setCopied(true);
   };
   return (
@@ -70,16 +73,16 @@ function DetailsRecipe({ detailsRecipe, isFavorite, setIsFavorite }) {
         { detailsRecipe.category === 'Cocktail' ? 'Alcoholic' : detailsRecipe.category }
       </p>
 
-      <ul>
-        { detailsRecipe.recipe.map((element, index) => (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ element }
-          >
-            { element }
-          </li>
-        )) }
-      </ul>
+      { checkbox
+        ? (
+          <CheckboxList
+            recipe={ detailsRecipe.recipe }
+            id={ detailsRecipe.id }
+            type={ detailsRecipe.type }
+          />
+        )
+        : <DisorderedList recipe={ detailsRecipe.recipe } /> }
+
       <div className="instructions-recipe">
         <p data-testid="instructions">
           { detailsRecipe.instructions }
@@ -101,6 +104,7 @@ DetailsRecipe.propTypes = {
   thumb: PropTypes.string,
   recipe: PropTypes.arrayOf,
   instructions: PropTypes.string,
+  checkbox: PropTypes.bool.isRequired,
 }.isRequired;
 
 export default DetailsRecipe;

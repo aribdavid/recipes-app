@@ -24,37 +24,50 @@ const getIngredientsAndMeassures = (array) => {
   return recipe;
 };
 
-const createDetailList = (data, food) => {
-  const recipe = food === 'foods'
+const createObjectRecipe = ({ type, id, thumb, title, alcoholicOrNot, data }) => {
+  const recipe = type === 'meals'
     ? getIngredientsAndMeassures(Object.entries(data.meals[0]))
     : getIngredientsAndMeassures(Object.entries(data.drinks[0]));
 
+  return {
+    id: data[type][0][id],
+    type: type === 'meals' ? 'food' : 'drink',
+    thumb: data[type][0][thumb],
+    title: data[type][0][title],
+    category: data[type][0].strCategory,
+    recipe,
+    instructions: data[type][0].strInstructions,
+    video: data[type][0].strYoutube,
+    nationality: data[type][0].strArea || '',
+    alcoholicOrNot: type === 'meals' ? '' : alcoholicOrNot,
+  };
+};
+
+const createDetailList = (data, food) => {
+  let alcoholicOrNot = '';
+
+  if (food === 'drinks') {
+    alcoholicOrNot = data.drinks[0].strCategory === 'Cocktail'
+      ? 'Alcoholic'
+      : 'non-alcoholic';
+  }
+
   return food === 'foods'
-    ? {
-      id: data.meals[0].idMeal,
-      type: 'food',
-      thumb: data.meals[0].strMealThumb,
-      title: data.meals[0].strMeal,
-      category: data.meals[0].strCategory,
-      recipe,
-      instructions: data.meals[0].strInstructions,
-      video: data.meals[0].strYoutube,
-      nationality: data.meals[0].strArea || '',
-      alcoholicOrNot: '',
-    }
-    : {
-      id: data.drinks[0].idDrink,
-      type: 'drink',
-      thumb: data.drinks[0].strDrinkThumb,
-      title: data.drinks[0].strDrink,
-      category: data.drinks[0].strCategory,
-      recipe,
-      instructions: data.drinks[0].strInstructions,
-      video: data.drinks[0].strYoutube,
-      nationality: data.drinks[0].strArea || '',
-      alcoholicOrNot: data.drinks[0].strCategory === 'Cocktail' ? 'Alcoholic'
-        : 'non-alcoholic',
-    };
+    ? createObjectRecipe({
+      type: 'meals',
+      id: 'idMeal',
+      thumb: 'strMealThumb',
+      title: 'strMeal',
+      data,
+    })
+    : createObjectRecipe({
+      type: 'drinks',
+      id: 'idDrink',
+      thumb: 'strDrinkThumb',
+      title: 'strDrink',
+      data,
+      alcoholicOrNot,
+    });
 };
 
 const getDetailsRecipe = async (location) => {

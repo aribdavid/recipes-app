@@ -23,17 +23,14 @@ function RecipeDetails() {
       setLoading(false);
     };
 
-    fetchDetailRecipe();
-  }, [setDetailsRecipe, location.pathname]);
-
-  useEffect(() => {
     const getLocalStorage = () => {
       const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
       setIsFavorite(favoriteArray.some((favorites) => favorites.id === detailsRecipe.id));
     };
 
+    fetchDetailRecipe();
     getLocalStorage();
-  }, [detailsRecipe.id]);
+  }, [setDetailsRecipe, location.pathname, detailsRecipe.id]);
 
   if (loading) return <Loading />;
 
@@ -43,6 +40,7 @@ function RecipeDetails() {
         detailsRecipe={ detailsRecipe }
         isFavorite={ isFavorite }
         setIsFavorite={ setIsFavorite }
+        checkbox={ false }
       />
 
       { detailsRecipe.video !== undefined && (
