@@ -13,7 +13,7 @@ import ExploreIngredients from './pages/ExploreIngredients/ExploreIngredients';
 import ExploreNationalities from './pages/ExploreNationalities/ExploreNationalities';
 import Profile from './pages/Profile/Profile';
 import DoneRecipes from './pages/DoneRecipes/DoneRecipes';
-import FavoritesRecipes from './pages/FavoritesRecipes/FavoritesRecipes';
+import FavoritesRecipes from './pages/FavRecipes/FavRecipes';
 import NotFound from './pages/NotFound/NotFound';
 import Header from './componets/Header/Header';
 import Footer from './componets/Footer/Footer';
