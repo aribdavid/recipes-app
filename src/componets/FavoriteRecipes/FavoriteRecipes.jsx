@@ -46,9 +46,7 @@ function FavoriteRecipes({ handleClick, filteredFavoriteRecipes, unFavorite }) {
 }
 
 FavoriteRecipes.propTypes = {
-  filteredFavoriteRecipes: PropTypes.shape({
-    map: PropTypes.func.isRequired,
-  }).isRequired,
+  filteredFavoriteRecipes: PropTypes.arrayOf(PropTypes.any).isRequired,
   handleClick: PropTypes.func.isRequired,
   unFavorite: PropTypes.func.isRequired,
 };
