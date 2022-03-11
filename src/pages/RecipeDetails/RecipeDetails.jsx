@@ -64,9 +64,9 @@ function RecipeDetails() {
       { detailsRecipe.video !== undefined && (
         <iframe
           data-testid="video"
-          width="560"
+          width="100%"
           height="315"
-          src={ detailsRecipe.video }
+          src={ detailsRecipe.video.replace('watch?v=', 'embed/') }
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer;
