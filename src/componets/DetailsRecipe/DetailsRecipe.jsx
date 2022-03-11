@@ -32,7 +32,7 @@ function DetailsRecipe({ detailsRecipe, isFavorite, setIsFavorite, checkbox }) {
   };
 
   const copyLink = () => {
-    copy(window.location.href);
+    copy(window.location.href.replace('/in-progress', ''));
     setCopied(true);
   };
   return (
