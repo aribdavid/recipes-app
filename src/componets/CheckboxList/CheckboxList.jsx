@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import myContext from '../../context/myContext';
 
 function DisorderedList({ recipe, id, type }) {
   const [stepsDone, setStepsDone] = useState([]);
+  const { setBtnFinishDisabled } = useContext(myContext);
+
   const getInProgressRecipes = () => {
     const storage = JSON.parse(localStorage.getItem('inProgressRecipes'))
       || { cocktails: {}, meals: {} };
@@ -32,6 +35,15 @@ function DisorderedList({ recipe, id, type }) {
     }));
   };
 
+  useEffect(() => {
+    const verifyCheckbox = () => {
+      const statusBtnFinished = recipe.every((element) => stepsDone.includes(element));
+      setBtnFinishDisabled(!statusBtnFinished);
+      console.log(statusBtnFinished);
+    };
+    verifyCheckbox();
+  }, [stepsDone, setBtnFinishDisabled, recipe]);
+
   const handleChange = ({ target }) => {
     if (stepsDone.includes(target.id)) removeStepLocalStorage(target.id);
     else saveStepInLocalStorage(target.id);
@@ -50,26 +62,23 @@ function DisorderedList({ recipe, id, type }) {
   }, [type, id]);
 
   return (
-    <ul>
+    <>
       { recipe.map((element, index) => (
-        <li
+        <label
+          htmlFor={ element }
+          data-testid={ `${index}-ingredient-step` }
           key={ element }
         >
-          <label
-            htmlFor={ element }
-            data-testid={ `${index}-ingredient-step` }
-          >
-            <input
-              id={ element }
-              type="checkbox"
-              checked={ stepsDone.includes(element) }
-              onChange={ handleChange }
-            />
-            { element }
-          </label>
-        </li>
+          <input
+            id={ element }
+            type="checkbox"
+            checked={ stepsDone.includes(element) }
+            onChange={ handleChange }
+          />
+          { element }
+        </label>
       )) }
-    </ul>
+    </>
   );
 }
 

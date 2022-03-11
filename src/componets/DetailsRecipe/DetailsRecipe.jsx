@@ -6,7 +6,8 @@ import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import DisorderedList from '../DisorderedList/DisorderedList';
 import CheckboxList from '../CheckboxList/CheckboxList';
 
-function DetailsRecipe({ detailsRecipe, isFavorite, setIsFavorite, checkbox }) {
+function DetailsRecipe({
+  detailsRecipe, isFavorite, setIsFavorite, checkbox }) {
   const [copied, setCopied] = useState(false);
   const dataFavoriteRecipes = () => {
     const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
@@ -78,7 +79,8 @@ function DetailsRecipe({ detailsRecipe, isFavorite, setIsFavorite, checkbox }) {
             recipe={ detailsRecipe.recipe }
             id={ detailsRecipe.id }
             type={ detailsRecipe.type }
-          />)
+          />
+        )
         : <DisorderedList recipe={ detailsRecipe.recipe } /> }
 
       <div className="instructions-recipe">
