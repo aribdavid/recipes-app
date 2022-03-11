@@ -73,7 +73,12 @@ function DetailsRecipe({ detailsRecipe, isFavorite, setIsFavorite, checkbox }) {
       </p>
 
       { checkbox
-        ? <CheckboxList recipe={ detailsRecipe.recipe } id={ detailsRecipe.id } />
+        ? (
+          <CheckboxList
+            recipe={ detailsRecipe.recipe }
+            id={ detailsRecipe.id }
+            type={ detailsRecipe.type }
+          />)
         : <DisorderedList recipe={ detailsRecipe.recipe } /> }
 
       <div className="instructions-recipe">
