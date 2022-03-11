@@ -7,10 +7,14 @@ function FavoritesRecipes() {
 
   const handleClick = (event) => {
     const { name } = event.target;
-    const getFavoriteRecipes = favoriteRecipes.filter((recipe) => (
-      recipe.type.includes(name)
-    ));
-    setFilteredFavoriteRecipes(getFavoriteRecipes);
+    if (name === 'all') {
+      setFilteredFavoriteRecipes(favoriteRecipes);
+    } else {
+      const getFavoriteRecipes = favoriteRecipes.filter((recipe) => (
+        recipe.type.includes(name)
+      ));
+      setFilteredFavoriteRecipes(getFavoriteRecipes);
+    }
   };
 
   const unFavorite = (event) => {
