@@ -10,8 +10,37 @@ function RecipeInProgress() {
   const [loading, setLoading] = useState(true);
   const [detailsRecipe, setDetailsRecipe] = useState({});
   const [isFavorite, setIsFavorite] = useState(false);
-  const { btnFinishDisabled, setDoneRecipes } = useContext(myContext);
+  const { btnFinishDisabled } = useContext(myContext);
   const history = useHistory();
+
+  const setDoneRecipes = (item) => {
+    const { id, type, thumb, title, category,
+      recipe,
+      instructions,
+      video, nationality, alcoholicOrNot } = item;
+    const obj = {
+      id,
+      type,
+      image: thumb,
+      name: title,
+      category,
+      recipe,
+      instructions,
+      video,
+      nationality,
+      alcoholicOrNot,
+      doneDate: '',
+      tags: [],
+    };
+    const currentStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (currentStorage) {
+      localStorage.setItem('doneRecipes',
+        JSON.stringify([...currentStorage, obj]));
+    } else {
+      localStorage.setItem('doneRecipes',
+        JSON.stringify([obj]));
+    }
+  };
 
   useEffect(() => {
     const fetchDetailRecipe = async () => {
@@ -45,7 +74,7 @@ function RecipeInProgress() {
         disabled={ btnFinishDisabled }
         onClick={ () => {
           history.push('/done-recipes');
-          setDoneRecipes((prevState) => [...prevState, detailsRecipe]);
+          setDoneRecipes(detailsRecipe);
         } }
       >
         Finish Recipe

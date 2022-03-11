@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
-import myContext from '../../context/myContext';
+import React, { useState, useEffect } from 'react';
+import shareIcon from '../../images/shareIcon.svg';
 
 function DoneRecipes() {
-  const { doneRecipes } = useContext(myContext);
+  const [doneRecipes, setDoneRecipes] = useState([]);
 
+  useEffect(() => {
+    setDoneRecipes(JSON.parse(localStorage.getItem('doneRecipes')));
+  }, []);
   return (
     <div>
       <button type="button" data-testid="filter-by-all-btn">
@@ -22,20 +25,34 @@ function DoneRecipes() {
           <img
             className="image-card"
             data-testid={ `${index}-horizontal-image` }
-            src={ recipe.thumb }
+            src={ recipe.image }
             alt=" drink "
           />
-          <h1 data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</h1>
+          <h1 data-testid={ `${index}-horizontal-top-text` }>
+            {`${recipe.nationality} - ${recipe.category} `}
+          </h1>
           <h3 data-testid={ `${index}-horizontal-name` }>
-            {recipe.title}
+            {recipe.name}
           </h3>
           <h4 data-testid={ `${index}-horizontal-done-date` }>
-            {recipe.title}
+            {recipe.doneDate}
           </h4>
-          <button type="button" data-testid={ `${index}-horizontal-share-btn` }>
-            {recipe.title}
+          <button type="button">
+            <img
+              data-testid={ `${index}-horizontal-share-btn` }
+              alt="share-logo"
+              src={ shareIcon }
+            />
           </button>
-          <p data-testid={ `${index}-horizontal-tag` }>Oi</p>
+          {recipe.tags.map((tag) => (
+            <span
+              key={ tag }
+              data-testid={ `${index}-${tag}-horizontal-tag` }
+            >
+              {tag}
+
+            </span>
+          ))}
 
         </section>
       ))}
