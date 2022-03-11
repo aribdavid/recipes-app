@@ -36,17 +36,20 @@ function DisorderedList({ recipe, id, type }) {
     }));
   };
 
-  useEffect(() => {
-    const verifyCheckbox = () => {
-      const statusBtnFinished = recipe.every((element) => stepsDone.includes(element));
-      setBtnFinishDisabled(!statusBtnFinished);
-    };
-    verifyCheckbox();
-  }, [stepsDone, setBtnFinishDisabled, recipe]);
-
   const handleChange = ({ target }) => {
-    if (stepsDone.includes(target.id)) removeStepLocalStorage(target.id);
-    else saveStepInLocalStorage(target.id);
+    console.log(target);
+    if (target.checked) {
+      target.setAttribute('checked', 'checked');
+      saveStepInLocalStorage(target.id);
+    } else {
+      target.removeAttribute('checked');
+      removeStepLocalStorage(target.id);
+    }
+  };
+
+  const checkStep = () => {
+    const checkbox = document.querySelectorAll('.step-completed');
+    checkbox.forEach((element) => element.setAttribute('checked', 'checked'));
   };
 
   useEffect(() => {
@@ -61,6 +64,15 @@ function DisorderedList({ recipe, id, type }) {
     getStepsDone();
   }, [type, id]);
 
+  useEffect(() => {
+    const verifyCheckbox = () => {
+      const statusBtnFinished = recipe.every((element) => stepsDone.includes(element));
+      setBtnFinishDisabled(!statusBtnFinished);
+    };
+    verifyCheckbox();
+    checkStep();
+  }, [stepsDone, setBtnFinishDisabled, recipe]);
+
   return (
     <>
       { recipe.map((element, index) => (
@@ -72,14 +84,10 @@ function DisorderedList({ recipe, id, type }) {
           <input
             id={ element }
             type="checkbox"
-            checked={ stepsDone.includes(element) }
-            onChange={ handleChange }
-          />
-          <span
             className={ stepsDone.includes(element) && 'step-completed' }
-          >
-            { element }
-          </span>
+            onClick={ handleChange }
+          />
+          <span>{ element }</span>
         </label>
       )) }
     </>
