@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-function DisorderedList({ recipe }) {
+function DisorderedList({ recipe, id }) {
+  const getInProgressRecipes = () => {
+    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'))
+      || { cocktails: {}, meals: {} };
+    console.log(storage);
+  };
+
+  useEffect(() => {
+    getInProgressRecipes();
+  }, []);
+
   return (
     <ul>
       { recipe.map((element, index) => (
@@ -9,7 +19,10 @@ function DisorderedList({ recipe }) {
           data-testid={ `${index}-ingredient-step` }
           key={ element }
         >
-          { element }
+          <label htmlFor={ element }>
+            <input id={ element } type="checkbox" />
+            { element }
+          </label>
         </li>
       )) }
     </ul>
@@ -18,6 +31,7 @@ function DisorderedList({ recipe }) {
 
 DisorderedList.propTypes = {
   recipe: PropTypes.arrayOf,
+  id: PropTypes.number,
 }.isRequired;
 
 export default DisorderedList;
