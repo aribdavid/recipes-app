@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import DetailsRecipe from '../../componets/DetailsRecipe/DetailsRecipe';
 import Loading from '../../componets/Loading/Loading';
 import getDetailsRecipe from '../../helpers/getDetailsRecipe';
@@ -11,6 +11,7 @@ function RecipeInProgress() {
   const [detailsRecipe, setDetailsRecipe] = useState({});
   const [isFavorite, setIsFavorite] = useState(false);
   const { btnFinishDisabled } = useContext(myContext);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchDetailRecipe = async () => {
@@ -42,6 +43,7 @@ function RecipeInProgress() {
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ btnFinishDisabled }
+        onClick={ () => history.push('/done-recipes') }
       >
         Finish Recipe
       </button>
