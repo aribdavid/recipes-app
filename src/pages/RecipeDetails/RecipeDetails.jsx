@@ -12,9 +12,17 @@ function RecipeDetails() {
   const location = useLocation();
   const [detailsRecipe, setDetailsRecipe] = useState({});
   const history = useHistory();
+  const [statusRecipe, setStatusRecipe] = useState();
 
   const redirectRecipeInProgress = () => {
     history.push(`/${detailsRecipe.type}s/${detailsRecipe.id}/in-progress`);
+  };
+
+  const getLocalStorage = () => {
+    const storage = JSON.parse(localStorage
+      .getItem('inProgressRecipes')) || { cocktails: {}, meals: {} };
+
+    return storage;
   };
 
   useEffect(() => {
@@ -23,13 +31,23 @@ function RecipeDetails() {
       setLoading(false);
     };
 
-    const getLocalStorage = () => {
+    const getFavoritesLocalStorage = () => {
       const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
       setIsFavorite(favoriteArray.some((favorites) => favorites.id === detailsRecipe.id));
     };
 
+    const getRecipesInLocalStorage = () => {
+      const storage = getLocalStorage();
+      const pathname = location.pathname.split('/');
+      const typeFood = pathname[1] === 'foods' ? 'meals' : 'cocktails';
+      if (Object.keys(storage[typeFood])
+        .includes(pathname[2])) setStatusRecipe('Continue Recipe');
+      else setStatusRecipe('Start Recipe');
+    };
+
     fetchDetailRecipe();
-    getLocalStorage();
+    getFavoritesLocalStorage();
+    getRecipesInLocalStorage();
   }, [setDetailsRecipe, location.pathname, detailsRecipe.id]);
 
   if (loading) return <Loading />;
@@ -65,7 +83,7 @@ function RecipeDetails() {
         className="button-start-recipe"
         onClick={ redirectRecipeInProgress }
       >
-        Start Recipe
+        { statusRecipe }
       </button>
     </main>
   );
