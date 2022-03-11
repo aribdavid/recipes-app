@@ -9,6 +9,7 @@ function RecommendedRecipes({ typeFood }) {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const NUMBER_SIX = 6;
+
   const getFoods = async () => {
     const response = await foodRequest(NUMBER_SIX);
     setRecipes(response);
@@ -22,9 +23,9 @@ function RecommendedRecipes({ typeFood }) {
   };
 
   useEffect(() => {
-    if (typeFood === 'foods') getDrinks();
+    if (typeFood === 'food') getDrinks();
     else getFoods();
-  }, []);
+  }, [typeFood]);
 
   if (loading) return <Loading />;
 
@@ -33,7 +34,7 @@ function RecommendedRecipes({ typeFood }) {
       {recipes.map((recipe, index) => (
         <section
           key={
-            typeFood === 'foods'
+            typeFood === 'food'
               ? recipe.idDrink
               : recipe.idMeal
           }
@@ -41,7 +42,7 @@ function RecommendedRecipes({ typeFood }) {
           data-testid={ `${index}-recomendation-card` }
         >
           <h2 data-testid={ `${index}-recomendation-title` }>
-            { typeFood === 'foods'
+            { typeFood === 'food'
               ? recipe.strDrink
               : recipe.strMeal }
           </h2>

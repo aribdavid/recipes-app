@@ -70,7 +70,7 @@ function Drinks() {
       <section>
         { resultRecipes.map((element, index) => (
           <CardRecipe
-            key={ element.idDrink }
+            key={ `${element.idDrink}${index}` }
             id={ element.idDrink }
             type="drinks"
             index={ index }
