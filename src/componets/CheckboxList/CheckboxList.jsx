@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import myContext from '../../context/myContext';
+import './style.css';
 
 function DisorderedList({ recipe, id, type }) {
   const [stepsDone, setStepsDone] = useState([]);
@@ -39,7 +40,6 @@ function DisorderedList({ recipe, id, type }) {
     const verifyCheckbox = () => {
       const statusBtnFinished = recipe.every((element) => stepsDone.includes(element));
       setBtnFinishDisabled(!statusBtnFinished);
-      console.log(statusBtnFinished);
     };
     verifyCheckbox();
   }, [stepsDone, setBtnFinishDisabled, recipe]);
@@ -75,7 +75,11 @@ function DisorderedList({ recipe, id, type }) {
             checked={ stepsDone.includes(element) }
             onChange={ handleChange }
           />
-          { element }
+          <span
+            className={ stepsDone.includes(element) && 'step-completed' }
+          >
+            { element }
+          </span>
         </label>
       )) }
     </>
