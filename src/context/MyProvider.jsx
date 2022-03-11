@@ -7,6 +7,7 @@ function MyProvider({ children }) {
   const [foodCategories, setFoodCategories] = useState([]);
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [btnFinishDisabled, setBtnFinishDisabled] = useState(true);
+  const [doneRecipes, setDoneRecipes] = useState([]);
 
   const state = { resultRecipes,
     setResultRecipes,
@@ -16,6 +17,8 @@ function MyProvider({ children }) {
     setDrinkCategories,
     btnFinishDisabled,
     setBtnFinishDisabled,
+    doneRecipes,
+    setDoneRecipes,
   };
 
   return (

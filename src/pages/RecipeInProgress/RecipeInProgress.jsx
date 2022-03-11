@@ -10,7 +10,7 @@ function RecipeInProgress() {
   const [loading, setLoading] = useState(true);
   const [detailsRecipe, setDetailsRecipe] = useState({});
   const [isFavorite, setIsFavorite] = useState(false);
-  const { btnFinishDisabled } = useContext(myContext);
+  const { btnFinishDisabled, setDoneRecipes } = useContext(myContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -43,7 +43,10 @@ function RecipeInProgress() {
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ btnFinishDisabled }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ () => {
+          history.push('/done-recipes');
+          setDoneRecipes((prevState) => [...prevState, detailsRecipe]);
+        } }
       >
         Finish Recipe
       </button>
