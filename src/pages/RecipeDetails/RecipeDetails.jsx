@@ -23,13 +23,13 @@ function RecipeDetails() {
       setLoading(false);
     };
 
-    const getLocalStorage = () => {
+    const getFavoritesLocalStorage = () => {
       const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
       setIsFavorite(favoriteArray.some((favorites) => favorites.id === detailsRecipe.id));
     };
 
     fetchDetailRecipe();
-    getLocalStorage();
+    getFavoritesLocalStorage();
   }, [setDetailsRecipe, location.pathname, detailsRecipe.id]);
 
   if (loading) return <Loading />;
