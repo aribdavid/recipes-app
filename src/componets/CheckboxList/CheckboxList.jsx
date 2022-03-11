@@ -37,7 +37,6 @@ function DisorderedList({ recipe, id, type }) {
   };
 
   const handleChange = ({ target }) => {
-    console.log(target);
     if (target.checked) {
       target.setAttribute('checked', 'checked');
       saveStepInLocalStorage(target.id);
@@ -84,7 +83,7 @@ function DisorderedList({ recipe, id, type }) {
           <input
             id={ element }
             type="checkbox"
-            className={ stepsDone.includes(element) && 'step-completed' }
+            className={ stepsDone.includes(element) ? 'step-completed' : undefined }
             onClick={ handleChange }
           />
           <span>{ element }</span>
