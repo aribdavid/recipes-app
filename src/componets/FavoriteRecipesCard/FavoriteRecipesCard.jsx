@@ -18,16 +18,15 @@ export default function FavoriteRecipesCard({ recipe, index, unFavorite }) {
 
   return (
     <div>
-      <button
-        type="button"
+      <input
+        data-testid={ `${index}-horizontal-image` }
+        type="image"
+        src={ recipe.image }
+        width="200px"
+        alt={ `${recipe.name}` }
         onClick={ () => history.push(`/${recipe.type}s/${recipe.id}`) }
-      >
-        <img
-          data-testid={ `${index}-horizontal-image` }
-          src={ recipe.image }
-          alt={ `${recipe.name}` }
-        />
-      </button>
+      />
+
       <h1
         data-testid={ `${index}-horizontal-top-text` }
       >
