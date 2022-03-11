@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import FavoriteRecipes from '../../componets/FavoriteRecipes/FavoriteRecipes';
 
@@ -40,9 +39,9 @@ function FavoritesRecipes() {
   return (
     <div>
       <FavoriteRecipes
-        handleClick={ handleClick }
+        handleClick={ () => handleClick }
         filteredFavoriteRecipes={ filteredFavoriteRecipes }
-        unFavorite={ unFavorite }
+        unFavorite={ () => unFavorite }
       />
     </div>
   );
