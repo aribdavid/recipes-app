@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import recipeRandomRequest from '../../services/RecipeRandomRequest';
 
 function ExploreRecipes() {
   const [pathname, setPathName] = useState('');
   const history = useHistory();
   const location = useLocation();
 
+  const redirectRandomRecipe = async () => {
+    const response = (await recipeRandomRequest(pathname));
+    return pathname === 'foods'
+      ? history.push(`/${pathname}/${response[0].idMeal}`)
+      : history.push(`/${pathname}/${response[0].idDrink}`);
+  };
+
   useEffect(() => {
     setPathName(location.pathname.split('/')[2]);
-    console.log(pathname);
-  }, []);
+  }, [location.pathname]);
 
   return (
     <main className="explore-recipes-container">
@@ -34,6 +41,7 @@ function ExploreRecipes() {
       <button
         type="button"
         data-testid="explore-surprise"
+        onClick={ redirectRandomRecipe }
       >
         Surprise me!
       </button>
