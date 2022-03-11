@@ -10,7 +10,7 @@ export default function FavoriteRecipesCard({ recipe, index, unFavorite }) {
 
   function handleShare() {
     const currentURL = window.location.href;
-    const url = `${currentURL.replace('receitas-favoritas', '')}`
+    const url = `${currentURL.replace('favorite-recipes', '')}`
     + `${recipe.type}s/${recipe.id}`;
     window.navigator.clipboard.writeText(url);
     setIsCopied(true);
@@ -48,17 +48,17 @@ export default function FavoriteRecipesCard({ recipe, index, unFavorite }) {
         type="button"
         name={ recipe.image }
         onClick={ () => handleShare() }
+        data-testid={ `${index}-horizontal-share-btn` }
       >
-        <img
-          data-testid={ `${index}-horizontal-share-btn` }
-          className="share-icon"
-          src={ shareIcon }
-          alt="shareIcon"
-        />
+        { isCopied ? 'Link copied!' : (
+          <img
+            className="share-icon"
+            src={ shareIcon }
+            alt="shareIcon"
+          />
+        )}
       </button>
-      {
-        isCopied && <span>Link copiado!</span>
-      }
+
       <button
         type="button"
         onClick={ (event) => unFavorite(event) }
