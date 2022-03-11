@@ -20,10 +20,10 @@ export default function FavoriteRecipesCard({ recipe, index, unFavorite }) {
     <div>
       <button
         type="button"
-        data-testid={ `${index}-horizontal-image` }
         onClick={ () => history.push(`/${recipe.type}s/${recipe.id}`) }
       >
         <img
+          data-testid={ `${index}-horizontal-image` }
           src={ recipe.image }
           alt={ `${recipe.name}` }
         />
@@ -33,7 +33,7 @@ export default function FavoriteRecipesCard({ recipe, index, unFavorite }) {
       >
         {
           recipe.alcoholicOrNot === ''
-            ? `${recipe.area} - ${recipe.category}`
+            ? `${recipe.nationality} - ${recipe.category}`
             : `${recipe.alcoholicOrNot}`
         }
       </h1>
@@ -48,10 +48,10 @@ export default function FavoriteRecipesCard({ recipe, index, unFavorite }) {
         type="button"
         name={ recipe.image }
         onClick={ () => handleShare() }
-        data-testid={ `${index}-horizontal-share-btn` }
       >
         { isCopied ? 'Link copied!' : (
           <img
+            data-testid={ `${index}-horizontal-share-btn` }
             className="share-icon"
             src={ shareIcon }
             alt="shareIcon"
@@ -86,6 +86,7 @@ FavoriteRecipesCard.propTypes = {
     id: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    nationality: PropTypes.string.isRequired,
     tags: PropTypes.shape({
       map: PropTypes.func,
     }),
