@@ -4,100 +4,122 @@ import shareIcon from '../../images/shareIcon.svg';
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [isShared, setShare] = useState(false);
+  const [activeFilter, setFilter] = useState('');
 
   useEffect(() => {
     setDoneRecipes(JSON.parse(localStorage.getItem('doneRecipes')));
   }, []);
   return (
     <div>
-      <button type="button" data-testid="filter-by-all-btn">
+      <button
+        type="button"
+        data-testid="filter-by-all-btn"
+        onClick={ () => {
+          setFilter('');
+        } }
+      >
         All
       </button>
-      <button type="button" data-testid="filter-by-food-btn">
+      <button
+        type="button"
+        data-testid="filter-by-food-btn"
+        onClick={ () => {
+          setFilter('food');
+        } }
+      >
         Food
       </button>
-      <button type="button" data-testid="filter-by-drink-btn">
+      <button
+        type="button"
+        data-testid="filter-by-drink-btn"
+        onClick={ () => {
+          setFilter('drink');
+        } }
+      >
         Drink
       </button>
-      {doneRecipes.map((recipe, index) => (
-        recipe.type === 'food' ? (
-          <section
-            key={ index }
-          >
-            <img
-              className="image-card"
-              data-testid={ `${index}-horizontal-image` }
-              src={ recipe.image }
-              alt=" food "
-            />
-            <h1 data-testid={ `${index}-horizontal-top-text` }>
-              {`${recipe.nationality} - ${recipe.category} `}
-            </h1>
-            <h3 data-testid={ `${index}-horizontal-name` }>
-              {recipe.name}
-            </h3>
-            <h4 data-testid={ `${index}-horizontal-done-date` }>
-              {recipe.doneDate}
-            </h4>
-            <button
-              type="button"
-              value="kleber"
-              onClick={ () => {
-                navigator.clipboard.writeText(`http://localhost:3000/foods/${recipe.id}`);
-                setShare(true);
-              } }
+      {doneRecipes
+        .filter((recipe) => recipe.type.includes(activeFilter))
+        .map((recipe, index) => (
+          recipe.type === 'food' ? (
+            <section
+              key={ index }
             >
-              {isShared ? 'Link copied!' : (
+              <img
+                className="image-card"
+                data-testid={ `${index}-horizontal-image` }
+                src={ recipe.image }
+                alt=" food "
+              />
+              <h1 data-testid={ `${index}-horizontal-top-text` }>
+                {`${recipe.nationality} - ${recipe.category} `}
+              </h1>
+              <h3 data-testid={ `${index}-horizontal-name` }>
+                {recipe.name}
+              </h3>
+              <h4 data-testid={ `${index}-horizontal-done-date` }>
+                {recipe.doneDate}
+              </h4>
+              <button
+                type="button"
+                value="kleber"
+                onClick={ () => {
+                // https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
+                  navigator.clipboard.writeText(`http://localhost:3000/foods/${recipe.id}`);
+                  setShare(true);
+                } }
+              >
+                {isShared ? 'Link copied!' : (
+                  <img
+                    data-testid={ `${index}-horizontal-share-btn` }
+                    alt="share-logo"
+                    src={ shareIcon }
+                  />
+                )}
+              </button>
+              {recipe.tags.map((tag) => (
+                <span
+                  key={ tag }
+                  data-testid={ `${index}-${tag}-horizontal-tag` }
+                >
+                  {tag}
+
+                </span>
+              ))}
+
+            </section>
+          ) : (
+            <section
+              key={ index }
+            >
+              <img
+                className="image-card"
+                data-testid={ `${index}-horizontal-image` }
+                src={ recipe.image }
+                alt=" drink "
+              />
+              <h1 data-testid={ `${index}-horizontal-top-text` }>
+                {`${recipe.alcoholicOrNot}`}
+              </h1>
+              <h3 data-testid={ `${index}-horizontal-name` }>
+                {recipe.name}
+              </h3>
+              <h4>{recipe.alcoholicOrNot}</h4>
+              <h4 data-testid={ `${index}-horizontal-done-date` }>
+                {recipe.doneDate}
+              </h4>
+              <button
+                type="button"
+              >
                 <img
                   data-testid={ `${index}-horizontal-share-btn` }
                   alt="share-logo"
                   src={ shareIcon }
                 />
-              )}
-            </button>
-            {recipe.tags.map((tag) => (
-              <span
-                key={ tag }
-                data-testid={ `${index}-${tag}-horizontal-tag` }
-              >
-                {tag}
-
-              </span>
-            ))}
-
-          </section>
-        ) : (
-          <section
-            key={ index }
-          >
-            <img
-              className="image-card"
-              data-testid={ `${index}-horizontal-image` }
-              src={ recipe.image }
-              alt=" drink "
-            />
-            <h1 data-testid={ `${index}-horizontal-top-text` }>
-              {`${recipe.alcoholicOrNot}`}
-            </h1>
-            <h3 data-testid={ `${index}-horizontal-name` }>
-              {recipe.name}
-            </h3>
-            <h4>{recipe.alcoholicOrNot}</h4>
-            <h4 data-testid={ `${index}-horizontal-done-date` }>
-              {recipe.doneDate}
-            </h4>
-            <button
-              type="button"
-            >
-              <img
-                data-testid={ `${index}-horizontal-share-btn` }
-                alt="share-logo"
-                src={ shareIcon }
-              />
-            </button>
-          </section>
-        )
-      ))}
+              </button>
+            </section>
+          )
+        ))}
     </div>
   );
 }
