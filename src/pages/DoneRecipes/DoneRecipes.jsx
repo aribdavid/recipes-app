@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import shareIcon from '../../images/shareIcon.svg';
 
 function DoneRecipes() {
@@ -45,18 +46,22 @@ function DoneRecipes() {
             <section
               key={ index }
             >
-              <img
-                className="image-card"
-                data-testid={ `${index}-horizontal-image` }
-                src={ recipe.image }
-                alt=" food "
-              />
+              <Link to={ `/foods/${recipe.id}` }>
+                <img
+                  className="image-card"
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ recipe.image }
+                  alt=" food "
+                />
+              </Link>
               <h1 data-testid={ `${index}-horizontal-top-text` }>
                 {`${recipe.nationality} - ${recipe.category} `}
               </h1>
-              <h3 data-testid={ `${index}-horizontal-name` }>
-                {recipe.name}
-              </h3>
+              <Link to={ `/foods/${recipe.id}` }>
+                <h3 data-testid={ `${index}-horizontal-name` }>
+                  {recipe.name}
+                </h3>
+              </Link>
               <h4 data-testid={ `${index}-horizontal-done-date` }>
                 {recipe.doneDate}
               </h4>
@@ -92,18 +97,22 @@ function DoneRecipes() {
             <section
               key={ index }
             >
-              <img
-                className="image-card"
-                data-testid={ `${index}-horizontal-image` }
-                src={ recipe.image }
-                alt=" drink "
-              />
+              <Link to={ `/drinks/${recipe.id}` }>
+                <img
+                  className="image-card"
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ recipe.image }
+                  alt=" drink "
+                />
+              </Link>
               <h1 data-testid={ `${index}-horizontal-top-text` }>
                 {`${recipe.alcoholicOrNot}`}
               </h1>
-              <h3 data-testid={ `${index}-horizontal-name` }>
-                {recipe.name}
-              </h3>
+              <Link to={ `/drinks/${recipe.id}` }>
+                <h3 data-testid={ `${index}-horizontal-name` }>
+                  {recipe.name}
+                </h3>
+              </Link>
               <h4>{recipe.alcoholicOrNot}</h4>
               <h4 data-testid={ `${index}-horizontal-done-date` }>
                 {recipe.doneDate}
