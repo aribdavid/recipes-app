@@ -3,6 +3,7 @@ import shareIcon from '../../images/shareIcon.svg';
 
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [isShared, setShare] = useState(false);
 
   useEffect(() => {
     setDoneRecipes(JSON.parse(localStorage.getItem('doneRecipes')));
@@ -38,12 +39,21 @@ function DoneRecipes() {
             <h4 data-testid={ `${index}-horizontal-done-date` }>
               {recipe.doneDate}
             </h4>
-            <button type="button">
-              <img
-                data-testid={ `${index}-horizontal-share-btn` }
-                alt="share-logo"
-                src={ shareIcon }
-              />
+            <button
+              type="button"
+              value="kleber"
+              onClick={ () => {
+                navigator.clipboard.writeText(`http://localhost:3000/foods/${recipe.id}`);
+                setShare(true);
+              } }
+            >
+              {isShared ? 'Link copied!' : (
+                <img
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  alt="share-logo"
+                  src={ shareIcon }
+                />
+              )}
             </button>
             {recipe.tags.map((tag) => (
               <span
@@ -76,7 +86,9 @@ function DoneRecipes() {
             <h4 data-testid={ `${index}-horizontal-done-date` }>
               {recipe.doneDate}
             </h4>
-            <button type="button">
+            <button
+              type="button"
+            >
               <img
                 data-testid={ `${index}-horizontal-share-btn` }
                 alt="share-logo"
