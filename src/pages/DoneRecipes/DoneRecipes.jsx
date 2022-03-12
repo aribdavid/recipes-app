@@ -39,7 +39,7 @@ function DoneRecipes() {
       >
         Drink
       </button>
-      {doneRecipes
+      {doneRecipes && doneRecipes
         .filter((recipe) => recipe.type.includes(activeFilter))
         .map((recipe, index) => (
           recipe.type === 'food' ? (
