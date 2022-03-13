@@ -10,106 +10,83 @@ const pathnameDoneRecipes = '/done-recipes';
 describe('Verifica se o header é renderizado nas páginas corretas', () => {
   it('Não tem header na tela de login', () => {
     renderWithRouterAndContext(<App />);
-
     const header = screen.queryByRole('banner');
-
     expect(header).not.toBeInTheDocument();
   });
 
   it('Não tem header na tela de detalhes de uma receita de comida', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/foods/52771');
-
     const header = screen.queryByRole('banner');
-
     expect(header).not.toBeInTheDocument();
   });
 
   it('Não tem header na tela de detalhes de uma receita de bebida', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('drinks/178319');
-
     const header = screen.queryByRole('banner');
-
     expect(header).not.toBeInTheDocument();
   });
 
   it('Não tem header na tela de receita em progresso de comida', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/foods/52771/in-progress');
-
     const header = screen.queryByRole('banner');
-
     expect(header).not.toBeInTheDocument();
   });
 
   it('Não tem header na tela de receita em progresso de bebida', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/drinks/178319/in-progress');
-
     const header = screen.queryByRole('banner');
-
     expect(header).not.toBeInTheDocument();
   });
 
   it('Tem header na tela de comidas', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/foods');
-
     const header = screen.queryByRole('banner');
-
     expect(header).toBeInTheDocument();
   });
 
   it('Tem header na tela de bebidas', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/drinks');
-
     const header = screen.queryByRole('banner');
-
     expect(header).toBeInTheDocument();
   });
 
   it('Tem header na tela de explorar', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/explore');
-
     const header = screen.queryByRole('banner');
-
     expect(header).toBeInTheDocument();
   });
 
   it('Tem header na tela de explorar comidas', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/explore/foods');
-
     const header = screen.queryByRole('banner');
-
     expect(header).toBeInTheDocument();
   });
 
   it('Tem header na tela de explorar bebidas', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/explore/drinks');
-
     const header = screen.queryByRole('banner');
-
     expect(header).toBeInTheDocument();
   });
 
   it('Tem header na tela de explorar comidas por ingrediente', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/explore/foods/ingredients');
-
     const header = screen.queryByRole('banner');
-
     expect(header).toBeInTheDocument();
   });
 
   it('Tem header na tela de explorar bebidas por ingrediente', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/explore/drinks/ingredients');
-
     const header = screen.queryByRole('banner');
     expect(header).toBeInTheDocument();
   });
@@ -138,9 +115,7 @@ describe('Verifica se o header é renderizado nas páginas corretas', () => {
   it('Tem header na tela de receitas favoritas', () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/favorite-recipes');
-
     const header = screen.queryByRole('banner');
-
     expect(header).toBeInTheDocument();
   });
 });
@@ -195,6 +170,19 @@ describe('Verifica os componentes do header', () => {
       expect(ingredientRadio).toBeInTheDocument();
       expect(nameRadio).toBeInTheDocument();
       expect(firstLetterRadio).toBeInTheDocument();
+    },
+  );
+
+  it(
+    'Verifica se ao clicar no icone de perfil, redireciona para /profile',
+    () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/foods');
+      const profileBtn = screen.getByTestId('profile-top-btn');
+      expect(profileBtn).toBeInTheDocument();
+      userEvent.click(profileBtn);
+      const { pathname } = history.location;
+      expect(pathname).toBe('/profile');
     },
   );
 });
