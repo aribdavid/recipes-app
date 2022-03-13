@@ -27,8 +27,8 @@ describe('Testa os inputs', () => {
     userEvent.type(inputEmail, email);
     userEvent.type(inputPassword, password);
 
-    expect(inputEmail.value).toBe(email);
-    expect(inputPassword.value).toBe(password);
+    expect(inputEmail).toHaveValue(email);
+    expect(inputPassword).toHaveValue(password);
   });
 });
 
