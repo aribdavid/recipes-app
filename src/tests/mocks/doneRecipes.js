@@ -14,7 +14,7 @@ const doneRecipes = [
     image: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
     nationality: '',
     id: '15997',
-    category: '"Ordinary Drink"',
+    category: 'Ordinary Drink',
     name: 'GG',
     type: 'drink',
     doneDate: '',
