@@ -4,26 +4,32 @@ import myContext from '../../context/myContext';
 import drinkRequest from '../../services/DrinkRequest';
 import drinkCategoryRequest from '../../services/DrinkCategoryRequest';
 import filteredDrinkRequest from '../../services/FilteredDrinkRequest';
+import ingredientRequest from '../../services/IngredientRequest';
 
 const NUMBER_TWELVE = 12;
 
 function Drinks() {
   const { resultRecipes, setResultRecipes,
-    drinkCategories, setDrinkCategories } = useContext(myContext);
+    drinkCategories, setDrinkCategories, ingredientFilter } = useContext(myContext);
   const [activeCategory, selectCategory] = useState('');
 
   useEffect(() => {
-    const getDrinks = async (category) => (
-      activeCategory !== '' ? setResultRecipes(await filteredDrinkRequest(category))
-        : setResultRecipes(await drinkRequest(NUMBER_TWELVE))
-    );
+    const getDrinks = async (category) => {
+      if (activeCategory !== '') {
+        setResultRecipes(await filteredDrinkRequest(category));
+      } if (ingredientFilter !== '') {
+        setResultRecipes(await ingredientRequest(ingredientFilter, 'drinks'));
+      } else {
+        setResultRecipes(await drinkRequest(NUMBER_TWELVE));
+      }
+    };
 
     const getDrinksCategories = async () => {
       setDrinkCategories(await drinkCategoryRequest());
     };
     getDrinks(activeCategory);
     getDrinksCategories();
-  }, [setDrinkCategories, setResultRecipes, activeCategory]);
+  }, [setDrinkCategories, setResultRecipes, activeCategory, ingredientFilter]);
 
   return (
     <main>
