@@ -24,6 +24,33 @@ describe('Testa a tela principal de bebidas ou comidas', () => {
     expect(recipes).toHaveLength(LENGTH);
   });
 
+  it(
+    'Verifica se marcar o filtro e desmarcar, o filtro é removido',
+    async () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/drinks');
+      const checkbox = await screen.findByTestId('Cocktail-category-filter');
+      userEvent.click(checkbox);
+      const recipe = await screen.findByText('155 Belmont');
+      expect(recipe).toBeInTheDocument();
+      userEvent.click(checkbox);
+      const otherRecipe = await screen.findByText('GG');
+      expect(otherRecipe).toBeInTheDocument();
+    },
+  );
+
+  it(
+    'Verifica se marcar o filtro de todas as bebidas, aparece 12 receitas',
+    async () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/drinks');
+      const checkbox = await screen.findByTestId('All-category-filter');
+      userEvent.click(checkbox);
+      const otherRecipe = await screen.findByText('GG');
+      expect(otherRecipe).toBeInTheDocument();
+    },
+  );
+
   it('Verifica se o card da receita está correto', async () => {
     const { history } = renderWithRouterAndContext(<App />);
     history.push('/foods');

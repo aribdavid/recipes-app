@@ -8,6 +8,8 @@ import favRecipes from './mocks/favRecipes';
 
 const PATHNAME_FAVORITERECIPES = '/favorite-recipes';
 
+// para funcionar o clipboard, tive que mockar a função
+// site: https://www.buzzphp.com/posts/how-to-mock-navigator-clipboard-writetext-in-jest
 Object.assign(navigator, {
   clipboard: {
     writeText: () => {},

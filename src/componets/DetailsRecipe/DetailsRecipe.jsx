@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import copy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -33,7 +32,9 @@ function DetailsRecipe({
   };
 
   const copyLink = () => {
-    copy(window.location.href.replace('/in-progress', ''));
+    const url = window.location.href;
+    console.log(url);
+    window.navigator.clipboard.writeText(url);
     setCopied(true);
   };
   return (

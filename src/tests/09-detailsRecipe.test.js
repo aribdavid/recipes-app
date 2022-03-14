@@ -9,6 +9,14 @@ const PATHNAME_FOODS = '/foods/52977';
 const DATA_TEST_START_BTN = 'start-recipe-btn';
 const FAVORITE_BTN = 'favorite-btn';
 
+// para funcionar o clipboard, tive que mockar a função
+// site: https://www.buzzphp.com/posts/how-to-mock-navigator-clipboard-writetext-in-jest
+Object.assign(navigator, {
+  clipboard: {
+    writeText: () => {},
+  },
+});
+
 describe('Testa a tela de detalhes de bebida e comida', () => {
   it('Todos os componentes estão na tela de comidas', async () => {
     const { history } = renderWithRouterAndContext(<App />);
@@ -86,6 +94,21 @@ describe('Testa a tela de detalhes de bebida e comida', () => {
       userEvent.click(favoriteBtn);
       const favRecipeInLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
       expect(favRecipeInLocalStorage[0].id).toBe('53026');
+      expect(favoriteBtn).toHaveProperty('alt', 'favorite icon black');
+      userEvent.click(favoriteBtn);
+      expect(favoriteBtn).toHaveProperty('alt', 'favorite icon');
+    },
+  );
+
+  it(
+    'Verifica se é possivel compartilhar a receita',
+    async () => {
+      jest.spyOn(navigator.clipboard, 'writeText');
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/foods/53026');
+      const btnShare = await screen.findByTestId('share-btn');
+      userEvent.click(btnShare);
+      expect(navigator.clipboard.writeText).toHaveBeenCalled();
     },
   );
 });

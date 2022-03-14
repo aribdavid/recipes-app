@@ -8,6 +8,14 @@ import doneRecipes from './mocks/doneRecipes';
 
 const PATHNAME_DONERECIPES = '/done-recipes';
 
+// para funcionar o clipboard, tive que mockar a função
+// site: https://www.buzzphp.com/posts/how-to-mock-navigator-clipboard-writetext-in-jest
+Object.assign(navigator, {
+  clipboard: {
+    writeText: () => {},
+  },
+});
+
 describe('Testa a tela de receitas feitas', () => {
   it('Testa se os botões do filtro estão na tela ', () => {
     const { history } = renderWithRouterAndContext(<App />);
@@ -77,5 +85,15 @@ describe('Testa a tela de receitas feitas', () => {
     expect(imagesRecipes).toHaveLength(LENGTH_RECIPES);
     expect(textRecipes).toHaveLength(LENGTH_RECIPES);
     expect(nameRecipes).toHaveLength(LENGTH_RECIPES);
+  });
+
+  it('Testa o de compartilhar a receita', async () => {
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    jest.spyOn(navigator.clipboard, 'writeText');
+    const { history } = renderWithRouterAndContext(<App />);
+    history.push(PATHNAME_DONERECIPES);
+    const btnShare = await screen.findByTestId('0-horizontal-share-btn');
+    userEvent.click(btnShare);
+    expect(navigator.clipboard.writeText).toHaveBeenCalled();
   });
 });

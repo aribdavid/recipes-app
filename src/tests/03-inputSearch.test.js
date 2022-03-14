@@ -5,6 +5,10 @@ import App from '../App';
 import renderWithRouterAndContext from './renderWithRouterAndContext';
 
 const searchBtnDataTest = 'search-top-btn';
+const SEARCH_INPUT = 'search-input';
+const EXEC_SEARCH = 'exec-search-btn';
+const NAME_SEARCH_RADIO = 'name-search-radio';
+const FIRST_LETTER_RADIO = 'first-letter-search-radio';
 
 describe('Testa o input search do header', () => {
   afterEach(() => jest.clearAllMocks());
@@ -17,8 +21,8 @@ describe('Testa o input search do header', () => {
       expect(searchBtn).toBeInTheDocument();
       userEvent.click(searchBtn);
       const ingredientRadio = screen.getByTestId('ingredient-search-radio');
-      const nameRadio = screen.getByTestId('name-search-radio');
-      const firstLetterRadio = screen.getByTestId('first-letter-search-radio');
+      const nameRadio = screen.getByTestId(NAME_SEARCH_RADIO);
+      const firstLetterRadio = screen.getByTestId(FIRST_LETTER_RADIO);
       userEvent.click(ingredientRadio);
       expect(ingredientRadio).toHaveProperty('checked');
       expect(nameRadio).toHaveProperty('checked', false);
@@ -43,7 +47,7 @@ describe('Testa o input search do header', () => {
       const searchBtn = screen.getByTestId(searchBtnDataTest);
       expect(searchBtn).toBeInTheDocument();
       userEvent.click(searchBtn);
-      const inputSearch = screen.getByTestId('search-input');
+      const inputSearch = screen.getByTestId(SEARCH_INPUT);
       expect(inputSearch).toBeInTheDocument();
       userEvent.type(inputSearch, text);
       expect(inputSearch).toHaveValue(text);
@@ -61,13 +65,49 @@ describe('Testa o input search do header', () => {
       global.alert = jest.fn();
       const searchBtn = screen.getByTestId(searchBtnDataTest);
       userEvent.click(searchBtn);
-      const inputSearch = screen.getByTestId('search-input');
-      const searchBtnExec = screen.getByTestId('exec-search-btn');
-      const firstLetterRadio = screen.getByTestId('first-letter-search-radio');
+      const inputSearch = screen.getByTestId(SEARCH_INPUT);
+      const searchBtnExec = screen.getByTestId(EXEC_SEARCH);
+      const firstLetterRadio = screen.getByTestId(FIRST_LETTER_RADIO);
       userEvent.type(inputSearch, 'letter');
       userEvent.click(firstLetterRadio);
       userEvent.click(searchBtnExec);
       expect(global.alert).toBeCalledWith(alert);
+    },
+  );
+
+  it(
+    'Verifica se pesquisar por nome funciona corretamente na pagina de comidas',
+    async () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/foods');
+      const searchBtn = screen.getByTestId(searchBtnDataTest);
+      userEvent.click(searchBtn);
+      const inputSearch = screen.getByTestId(SEARCH_INPUT);
+      const searchBtnExec = screen.getByTestId(EXEC_SEARCH);
+      const nameRadio = screen.getByTestId(NAME_SEARCH_RADIO);
+      userEvent.type(inputSearch, 'chicken');
+      userEvent.click(nameRadio);
+      userEvent.click(searchBtnExec);
+      const recipe = await screen.findByText('Chicken Handi');
+      expect(recipe).toBeInTheDocument();
+    },
+  );
+
+  it(
+    'Verifica se pesquisar por ingrediente funciona corretamente',
+    async () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/foods');
+      const searchBtn = screen.getByTestId(searchBtnDataTest);
+      userEvent.click(searchBtn);
+      const inputSearch = screen.getByTestId(SEARCH_INPUT);
+      const searchBtnExec = screen.getByTestId('exec-search-btn');
+      const ingredientRadio = screen.getByTestId('ingredient-search-radio');
+      userEvent.type(inputSearch, 'chicken');
+      userEvent.click(ingredientRadio);
+      userEvent.click(searchBtnExec);
+      const recipe = await screen.findByText('Brown Stew Chicken');
+      expect(recipe).toBeInTheDocument();
     },
   );
 });
