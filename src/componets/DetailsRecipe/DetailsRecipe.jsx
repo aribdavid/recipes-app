@@ -33,7 +33,6 @@ function DetailsRecipe({
 
   const copyLink = () => {
     const url = window.location.href.replace('/in-progress', '');
-    console.log(url);
     window.navigator.clipboard.writeText(url);
     setCopied(true);
   };
