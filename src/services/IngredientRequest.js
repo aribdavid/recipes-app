@@ -1,3 +1,5 @@
+const NUMBER_TWELVE = 12;
+
 function verifyNull(typeFood, result) {
   if (typeFood === 'foods') return !result.meals;
   return !result.drinks;
@@ -12,7 +14,9 @@ async function ingredientRequest(ingredient, typeFood) {
     const result = await data.json();
     const isNull = verifyNull(typeFood, result);
     if (isNull) return null;
-    return typeFood === 'foods' ? result.meals : result.drinks;
+    return typeFood === 'foods'
+      ? result.meals.slice(0, NUMBER_TWELVE)
+      : result.drinks.slice(0, NUMBER_TWELVE);
   } catch (err) {
     return err;
   }
