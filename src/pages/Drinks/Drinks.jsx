@@ -15,12 +15,11 @@ function Drinks() {
 
   useEffect(() => {
     const getDrinks = async (category) => {
+      setResultRecipes(await drinkRequest(NUMBER_TWELVE));
       if (activeCategory !== '') {
         setResultRecipes(await filteredDrinkRequest(category));
       } if (ingredientFilter !== '') {
         setResultRecipes(await ingredientRequest(ingredientFilter, 'drinks'));
-      } else {
-        setResultRecipes(await drinkRequest(NUMBER_TWELVE));
       }
     };
 

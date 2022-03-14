@@ -17,12 +17,11 @@ function Foods() {
 
   useEffect(() => {
     const getFoods = async (category) => {
+      setResultRecipes(await foodRequest(NUMBER_TWELVE));
       if (activeCategory !== '') {
         setResultRecipes(await filteredFoodRequest(category));
       } if (ingredientFilter !== '') {
         setResultRecipes(await ingredientRequest(ingredientFilter, 'foods'));
-      } else {
-        setResultRecipes(await foodRequest(NUMBER_TWELVE));
       }
     };
 
