@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import nationalitiesRequest from '../../services/NationalitiesRequest';
 import nationalityFilterRequest from '../../services/NationalityFilterRequest';
 import foodRequest from '../../services/FoodRequest';
 import myContext from '../../context/myContext';
+import CardRecipe from '../../componets/CardRecipe/CardRecipe';
 
 const NUMBER_TWELVE = 12;
 
 function ExploreNationalities() {
   const [nationalities, setNationalities] = useState([]);
   const [activeNationality, setActiveNationality] = useState('');
-  // const [recipesData, setRecipesData] = useState([]);
   const { resultRecipes, setResultRecipes } = useContext(myContext);
 
   useEffect(() => {
@@ -19,6 +18,9 @@ function ExploreNationalities() {
         setResultRecipes(await nationalityFilterRequest(activeNationality));
       }
       if (activeNationality === 'All') {
+        setResultRecipes(await foodRequest(NUMBER_TWELVE));
+      }
+      if (activeNationality === '') {
         setResultRecipes(await foodRequest(NUMBER_TWELVE));
       }
     };
@@ -55,23 +57,14 @@ function ExploreNationalities() {
         ))}
       </select>
       {resultRecipes.map((elem, index) => (
-        <Link
-          data-testid={ `${index}-recipe-card` }
+        <CardRecipe
           key={ index }
-          to={ `/foods/${elem.idMeal}` }
-        >
-          <div>
-            <img
-              className="image-card"
-              data-testid={ `${index}-card-img` }
-              src={ elem.strMealThumb }
-              alt=" drink "
-            />
-            <h1 data-testid={ `${index}-card-name` }>
-              {elem.strMeal}
-            </h1>
-          </div>
-        </Link>
+          index={ index }
+          image={ elem.strMealThumb }
+          name={ elem.strMeal }
+          id={ elem.idMeal }
+          type="foods"
+        />
       ))}
     </main>
   );
