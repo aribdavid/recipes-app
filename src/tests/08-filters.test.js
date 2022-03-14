@@ -5,6 +5,8 @@ import App from '../App';
 import renderWithRouterAndContext from './renderWithRouterAndContext';
 import 'jest-localstorage-mock';
 
+const TESTID_ALL = 'All-category-filter';
+
 describe('Testa o filtro da pagina pricipal de bebidas e comidas', () => {
   it('Verifica se os inputs do tipo checkbox estão na tela de comidas', async () => {
     const { history } = renderWithRouterAndContext(<App />);
@@ -14,7 +16,7 @@ describe('Testa o filtro da pagina pricipal de bebidas e comidas', () => {
     const inputChicken = await screen.findByTestId('Chicken-category-filter');
     const inputDessert = await screen.findByTestId('Dessert-category-filter');
     const inputGoat = await screen.findByTestId('Goat-category-filter');
-    const inputAll = await screen.findByTestId('All-category-filter');
+    const inputAll = await screen.findByTestId(TESTID_ALL);
 
     expect(inputBeef).toBeInTheDocument();
     expect(inputBreackfast).toBeInTheDocument();
@@ -32,7 +34,7 @@ describe('Testa o filtro da pagina pricipal de bebidas e comidas', () => {
     const inputShake = await screen.findByTestId('Shake-category-filter');
     const inputOther = await screen.findByTestId('Other/Unknown-category-filter');
     const inputCocoa = await screen.findByTestId('Cocoa-category-filter');
-    const inputAll = await screen.findByTestId('All-category-filter');
+    const inputAll = await screen.findByTestId(TESTID_ALL);
 
     expect(inputOrdinary).toBeInTheDocument();
     expect(inputCocktail).toBeInTheDocument();
@@ -50,7 +52,7 @@ describe('Testa o filtro da pagina pricipal de bebidas e comidas', () => {
     const inputChicken = await screen.findByTestId('Chicken-category-filter');
     const inputDessert = await screen.findByTestId('Dessert-category-filter');
     const inputGoat = await screen.findByTestId('Goat-category-filter');
-    const inputAll = await screen.findByTestId('All-category-filter');
+    const inputAll = await screen.findByTestId(TESTID_ALL);
     userEvent.click(inputBeef);
     expect(inputBeef).toHaveProperty('checked', true);
     userEvent.click(inputBreackfast);
@@ -73,7 +75,7 @@ describe('Testa o filtro da pagina pricipal de bebidas e comidas', () => {
     const inputShake = await screen.findByTestId('Shake-category-filter');
     const inputOther = await screen.findByTestId('Other/Unknown-category-filter');
     const inputCocoa = await screen.findByTestId('Cocoa-category-filter');
-    const inputAll = await screen.findByTestId('All-category-filter');
+    const inputAll = await screen.findByTestId(TESTID_ALL);
     userEvent.click(inputOrdinary);
     expect(inputOrdinary).toHaveProperty('checked', true);
     userEvent.click(inputCocktail);
