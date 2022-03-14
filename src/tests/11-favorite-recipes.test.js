@@ -8,6 +8,12 @@ import favRecipes from './mocks/favRecipes';
 
 const PATHNAME_FAVORITERECIPES = '/favorite-recipes';
 
+Object.assign(navigator, {
+  clipboard: {
+    writeText: () => {},
+  },
+});
+
 describe('Testa a tela de receitas favoritas', () => {
   it('Testa se os botões de filtro estão na tela ', () => {
     const { history } = renderWithRouterAndContext(<App />);
@@ -76,5 +82,53 @@ describe('Testa a tela de receitas favoritas', () => {
     expect(imagesRecipes).toHaveLength(LENGTH_RECIPES);
     expect(textRecipes).toHaveLength(LENGTH_RECIPES);
     expect(nameRecipes).toHaveLength(LENGTH_RECIPES);
+  });
+
+  it('Verifica se ao clicar na imagem, redireciona para as pagina correta', async () => {
+    const { history } = renderWithRouterAndContext(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favRecipes));
+    history.push(PATHNAME_FAVORITERECIPES);
+    const imageRecipe = await screen.findByTestId('0-horizontal-image');
+    userEvent.click(imageRecipe);
+    const { pathname } = history.location;
+    const url = `/${favRecipes[0].type}s/${favRecipes[0].id}`;
+    expect(pathname).toBe(url);
+  });
+
+  it('Verifica se ao clicar no titulo, redireciona para as pagina correta', async () => {
+    const { history } = renderWithRouterAndContext(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favRecipes));
+    history.push(PATHNAME_FAVORITERECIPES);
+    const titleRecipe = await screen.findByTestId('0-horizontal-name');
+    userEvent.click(titleRecipe);
+    const { pathname } = history.location;
+    const url = `/${favRecipes[0].type}s/${favRecipes[0].id}`;
+    expect(pathname).toBe(url);
+  });
+
+  it('Verifica se ao clicar no icone de favorito, remove a receita', async () => {
+    const { history } = renderWithRouterAndContext(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favRecipes));
+    history.push(PATHNAME_FAVORITERECIPES);
+    const favButton = await screen.findByTestId('0-horizontal-favorite-btn');
+    userEvent.click(favButton);
+    const imagesRecipes = await screen.findAllByTestId(/horizontal-image/i);
+    const textRecipes = await screen.findAllByTestId(/horizontal-top-text/i);
+    const nameRecipes = await screen.findAllByTestId(/horizontal-name/i);
+    const LENGTH_RECIPES = 2;
+    expect(imagesRecipes).toHaveLength(LENGTH_RECIPES);
+    expect(textRecipes).toHaveLength(LENGTH_RECIPES);
+    expect(nameRecipes).toHaveLength(LENGTH_RECIPES);
+  });
+
+  it('Verifica se o botão de compartilhar funciona', async () => {
+    jest.spyOn(navigator.clipboard, 'writeText');
+    const { history } = renderWithRouterAndContext(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favRecipes));
+    history.push(PATHNAME_FAVORITERECIPES);
+    const shareBtn = await screen.findByTestId('0-horizontal-share-btn');
+    userEvent.click(shareBtn);
+    const url = `http://localhost/${favRecipes[0].type}s/${favRecipes[0].id}`;
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(url);
   });
 });
