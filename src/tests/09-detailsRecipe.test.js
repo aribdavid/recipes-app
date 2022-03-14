@@ -6,6 +6,7 @@ import renderWithRouterAndContext from './renderWithRouterAndContext';
 import 'jest-localstorage-mock';
 
 const PATHNAME_FOODS = '/foods/52977';
+const DATA_TEST_START_BTN = 'start-recipe-btn';
 
 describe('Testa a tela de detalhes de bebida e comida', () => {
   it('Todos os componentes estão na tela de comidas', async () => {
@@ -18,7 +19,7 @@ describe('Testa a tela de detalhes de bebida e comida', () => {
     const ingredients = await screen.findAllByTestId(/ingredient-name-and-measure/i);
     const instructions = await screen.findByTestId('instructions');
     const video = await screen.findByTestId('video');
-    const startRecipe = await screen.findByTestId('start-recipe-btn');
+    const startRecipe = await screen.findByTestId(DATA_TEST_START_BTN);
     const recommendationCard = await screen.findAllByTestId(/0-recomendation-card/i);
 
     expect(recipeImage).toBeInTheDocument();
@@ -54,7 +55,7 @@ describe('Testa a tela de detalhes de bebida e comida', () => {
     async () => {
       const { history } = renderWithRouterAndContext(<App />);
       history.push(PATHNAME_FOODS);
-      const startRecipe = await screen.findByTestId('start-recipe-btn');
+      const startRecipe = await screen.findByTestId(DATA_TEST_START_BTN);
       userEvent.click(startRecipe);
       const { pathname } = history.location;
       expect(pathname).toBe('/foods/52977/in-progress');
@@ -69,7 +70,7 @@ describe('Testa a tela de detalhes de bebida e comida', () => {
       const firstIngredient = await screen.findByTestId('0-ingredient-step');
       userEvent.click(firstIngredient);
       history.push('/foods/52785');
-      const startRecipe = await screen.findByTestId('start-recipe-btn');
+      const startRecipe = await screen.findByTestId(DATA_TEST_START_BTN);
       expect(startRecipe.innerHTML).toBe('Continue Recipe');
     },
   );
