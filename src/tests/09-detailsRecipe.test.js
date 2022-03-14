@@ -5,10 +5,12 @@ import App from '../App';
 import renderWithRouterAndContext from './renderWithRouterAndContext';
 import 'jest-localstorage-mock';
 
+const PATHNAME_FOODS = '/foods/52977';
+
 describe('Testa a tela de detalhes de bebida e comida', () => {
   it('Todos os componentes estão na tela de comidas', async () => {
     const { history } = renderWithRouterAndContext(<App />);
-    history.push('/foods/52977');
+    history.push(PATHNAME_FOODS);
     const recipeImage = await screen.findByTestId('recipe-photo');
     const recipeTitle = await screen.findByTestId('recipe-title');
     const shareBtn = await screen.findByTestId('share-btn');
@@ -42,7 +44,7 @@ describe('Testa a tela de detalhes de bebida e comida', () => {
 
   it('Verifica o botão de favoritar ', async () => {
     const { history } = renderWithRouterAndContext(<App />);
-    history.push('/foods/52977');
+    history.push(PATHNAME_FOODS);
     const favoriteBtn = await screen.findByTestId('favorite-btn');
     userEvent.click(favoriteBtn);
   });
@@ -51,11 +53,24 @@ describe('Testa a tela de detalhes de bebida e comida', () => {
     'Verifica se clicar em "Start recipe", é redirecionado para a pagina correta',
     async () => {
       const { history } = renderWithRouterAndContext(<App />);
-      history.push('/foods/52977');
+      history.push(PATHNAME_FOODS);
       const startRecipe = await screen.findByTestId('start-recipe-btn');
       userEvent.click(startRecipe);
       const { pathname } = history.location;
       expect(pathname).toBe('/foods/52977/in-progress');
+    },
+  );
+
+  it(
+    'Verifica se clicar em "Start recipe", e depois voltar, o texto está Continue Recipe',
+    async () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/foods/52785/in-progress');
+      const firstIngredient = await screen.findByTestId('0-ingredient-step');
+      userEvent.click(firstIngredient);
+      history.push('/foods/52785');
+      const startRecipe = await screen.findByTestId('start-recipe-btn');
+      expect(startRecipe.innerHTML).toBe('Continue Recipe');
     },
   );
 });
