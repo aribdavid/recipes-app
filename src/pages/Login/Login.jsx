@@ -40,7 +40,7 @@ function Login() {
           />
         </label>
         <label htmlFor="password">
-          Senha
+          Password
           <input
             name="password"
             type="password"
@@ -62,8 +62,7 @@ function Login() {
             history.push('/foods');
           } }
         >
-          Entrar
-
+          Login
         </button>
       </form>
     </main>

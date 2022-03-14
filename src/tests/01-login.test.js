@@ -14,7 +14,7 @@ describe('Testa os inputs', () => {
 
   it('Verifica se existe um input de email e senha', () => {
     const inputEmail = screen.getByLabelText(/email/i);
-    const inputPassword = screen.getByLabelText(/Senha/i);
+    const inputPassword = screen.getByLabelText(/Password/i);
 
     expect(inputEmail).toBeInTheDocument();
     expect(inputPassword).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('Testa os inputs', () => {
 
   it('Verifica se é possivel digitar nos inputs', () => {
     const inputEmail = screen.getByLabelText(/email/i);
-    const inputPassword = screen.getByLabelText(/Senha/i);
+    const inputPassword = screen.getByLabelText(/Password/i);
 
     userEvent.type(inputEmail, email);
     userEvent.type(inputPassword, password);
@@ -46,13 +46,13 @@ describe('Testa o botão de fazer login', () => {
   });
 
   it('Verifica se existe um botão de fazer login', () => {
-    const buttonLogin = screen.getByRole('button', { name: /Entrar/i });
+    const buttonLogin = screen.getByRole('button', { name: /Login/i });
 
     expect(buttonLogin).toBeInTheDocument();
   });
 
   it('Verifica se o botão está desabilitado ao entrar na página', () => {
-    const buttonLogin = screen.getByRole('button', { name: /Entrar/i });
+    const buttonLogin = screen.getByRole('button', { name: /Login/i });
 
     expect(buttonLogin).toHaveProperty('disabled', true);
   });
@@ -66,8 +66,8 @@ describe('Verifica se só é possivel fazer login com os valores corretos', () =
 
       const incorretEmail = 'teste@teste';
       const inputEmail = screen.getByLabelText(/Email/i);
-      const inputPassword = screen.getByLabelText(/Senha/i);
-      const buttonLogin = screen.getByRole('button', { name: /Entrar/i });
+      const inputPassword = screen.getByLabelText(/Password/i);
+      const buttonLogin = screen.getByRole('button', { name: /Login/i });
 
       userEvent.type(inputEmail, incorretEmail);
       userEvent.type(inputPassword, password);
@@ -83,8 +83,8 @@ describe('Verifica se só é possivel fazer login com os valores corretos', () =
 
       const incorretPassword = '123456';
       const inputEmail = screen.getByLabelText(/Email/i);
-      const inputPassword = screen.getByLabelText(/Senha/i);
-      const buttonLogin = screen.getByRole('button', { name: /Entrar/i });
+      const inputPassword = screen.getByLabelText(/Password/i);
+      const buttonLogin = screen.getByRole('button', { name: /Login/i });
 
       userEvent.type(inputEmail, email);
       userEvent.type(inputPassword, incorretPassword);
@@ -94,13 +94,13 @@ describe('Verifica se só é possivel fazer login com os valores corretos', () =
   );
 
   it(
-    'Verifica se colocar o email e senha corretas o botão de login habilita',
+    'Verifica se colocar o email e Password corretas o botão de login habilita',
     () => {
       renderWithRouterAndContext(<App />);
 
       const inputEmail = screen.getByLabelText(/Email/i);
-      const inputPassword = screen.getByLabelText(/Senha/i);
-      const buttonLogin = screen.getByRole('button', { name: /Entrar/i });
+      const inputPassword = screen.getByLabelText(/Password/i);
+      const buttonLogin = screen.getByRole('button', { name: /Login/i });
 
       userEvent.type(inputEmail, email);
       userEvent.type(inputPassword, password);
@@ -115,8 +115,8 @@ describe('Verifica se só é possivel fazer login com os valores corretos', () =
       const { history } = renderWithRouterAndContext(<App />);
 
       const inputEmail = screen.getByLabelText(/Email/i);
-      const inputPassword = screen.getByLabelText(/Senha/i);
-      const buttonLogin = screen.getByRole('button', { name: /Entrar/i });
+      const inputPassword = screen.getByLabelText(/Password/i);
+      const buttonLogin = screen.getByRole('button', { name: /Login/i });
 
       userEvent.type(inputEmail, email);
       userEvent.type(inputPassword, password);
