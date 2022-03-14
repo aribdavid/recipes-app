@@ -1,8 +1,11 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouterAndContext from './renderWithRouterAndContext';
 import 'jest-localstorage-mock';
+
+const DATA_TEST = '0-card-img';
 
 describe('Testa a tela principal de bebidas ou comidas', () => {
   it('Verifica se ao renderizar a tela de comidas, aparece 12 receitas', async () => {
@@ -27,11 +30,35 @@ describe('Testa a tela principal de bebidas ou comidas', () => {
     const LENGTH = 12;
     const recipes = await screen.findAllByTestId(/recipe-card/i);
     expect(recipes).toHaveLength(LENGTH);
-    const imageRecipe = screen.getByTestId('0-card-img');
+    const imageRecipe = screen.getByTestId(DATA_TEST);
     const titleRecipe = screen.getByTestId('0-card-name');
     const urlImage = 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg';
 
     expect(imageRecipe).toHaveProperty('src', urlImage);
     expect(titleRecipe.innerHTML).toBe('Corba');
   });
+
+  it(
+    'Verifica se ao clicar no card de uma comida é redirecionado para a tela de detalhes',
+    async () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/foods');
+      const recipe = await screen.findByTestId(DATA_TEST);
+      userEvent.click(recipe);
+      const { pathname } = history.location;
+      expect(pathname).toBe('/foods/52977');
+    },
+  );
+
+  it(
+    'Verifica se ao clicar no card de uma bebida é redirecionado para a tela de detalhes',
+    async () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/drinks');
+      const recipe = await screen.findByTestId(DATA_TEST);
+      userEvent.click(recipe);
+      const { pathname } = history.location;
+      expect(pathname).toBe('/drinks/15997');
+    },
+  );
 });
