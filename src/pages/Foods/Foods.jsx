@@ -4,6 +4,7 @@ import myContext from '../../context/myContext';
 import foodRequest from '../../services/FoodRequest';
 import foodCategoryRequest from '../../services/FoodCategoryRequest';
 import filteredFoodRequest from '../../services/FilteredFoodRequest';
+import ingredientRequest from '../../services/IngredientRequest';
 
 const NUMBER_TWELVE = 12;
 
@@ -11,14 +12,18 @@ function Foods() {
   const { resultRecipes,
     setResultRecipes,
     foodCategories,
-    setFoodCategories } = useContext(myContext);
+    setFoodCategories, ingredientFilter } = useContext(myContext);
   const [activeCategory, selectCategory] = useState('');
 
   useEffect(() => {
-    const getFoods = async (category) => (
-      activeCategory !== '' ? setResultRecipes(await filteredFoodRequest(category))
-        : setResultRecipes(await foodRequest(NUMBER_TWELVE))
-    );
+    const getFoods = async (category) => {
+      setResultRecipes(await foodRequest(NUMBER_TWELVE));
+      if (activeCategory !== '') {
+        setResultRecipes(await filteredFoodRequest(category));
+      } if (ingredientFilter !== '') {
+        setResultRecipes(await ingredientRequest(ingredientFilter, 'foods'));
+      }
+    };
 
     const getFoodCategories = async () => {
       setFoodCategories(await foodCategoryRequest());
@@ -26,7 +31,7 @@ function Foods() {
 
     getFoods(activeCategory);
     getFoodCategories();
-  }, [setFoodCategories, setResultRecipes, activeCategory]);
+  }, [setFoodCategories, setResultRecipes, activeCategory, ingredientFilter]);
 
   return (
     <main>
