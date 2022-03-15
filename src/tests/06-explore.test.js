@@ -37,4 +37,34 @@ describe('Testa a tela explore', () => {
     const { pathname } = history.location;
     expect(pathname).toBe('/explore/foods/ingredients');
   });
+
+  it(
+    `Testa se ao clicar em um ingrediente redireciona para a /foods na tela de comidas
+    e mostra as comidas corretas`, async () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/explore/foods/ingredients');
+
+      const chickenIngredient = await screen.findByText('Chicken');
+      userEvent.click(chickenIngredient);
+      const recipe = await screen.findByText('Brown Stew Chicken');
+      expect(recipe).toBeInTheDocument();
+      const { pathname } = history.location;
+      expect(pathname).toBe('/foods');
+    },
+  );
+
+  it(
+    `Testa se ao clicar em um ingrediente redireciona para a /drinks na tela de bebidas
+    e mostra as bebidas corretas`, async () => {
+      const { history } = renderWithRouterAndContext(<App />);
+      history.push('/explore/drinks/ingredients');
+
+      const drinkIngredient = await screen.findByText('Light rum');
+      userEvent.click(drinkIngredient);
+      const recipe = await screen.findByText('151 Florida Bushwacker');
+      expect(recipe).toBeInTheDocument();
+      const { pathname } = history.location;
+      expect(pathname).toBe('/drinks');
+    },
+  );
 });
