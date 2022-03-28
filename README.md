@@ -24,7 +24,7 @@ npm install
   ```
 
 ## Equipe
-Aryeh David: https://github.com/diegodmitry, 
+Aryeh David: https://github.com/aribdavid, 
 Matheus Ferreira: https://github.com/matheus-ferreira02,
 Matheus Aquilino: https://github.com/MatheusKiseki,
 Murilo Amaral: https://github.com/MuriloAmarals,
